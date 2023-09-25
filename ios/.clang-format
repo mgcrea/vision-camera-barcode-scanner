@@ -1,0 +1,3 @@
+BasedOnStyle: Chromium
+IndentWidth: 2
+ColumnLimit: 0

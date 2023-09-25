@@ -1,0 +1,63 @@
+{
+  "name": "@mgcrea/vision-camera-code-scanner",
+  "version": "0.1.0",
+  "description": "Code scanner library fore React Native Vision Camera",
+  "author": "Olivier Louvignes <olivier@mgcrea.io>",
+  "repository": "github:mgcrea/vision-camera-code-scanner",
+  "homepage": "https://github.com/mgcrea/vision-camera-code-scanner#readme",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "ios/*.{h,m,mm}",
+    "*.podspec"
+  ],
+  "scripts": {
+    "start": "bun run spec -- --watch",
+    "build": "tsup src/index.ts --format cjs,esm --sourcemap --dts --clean",
+    "lint": "eslint src/",
+    "prettycheck": "prettier --check src/ test/",
+    "typecheck": "tsc --noEmit",
+    "spec": "bun test test/",
+    "test": "bun run lint && bun run prettycheck && bun run typecheck && bun run spec",
+    "prettify": "prettier --write src/ test/",
+    "clean": "rm -rf android/build example/android/build example/android/app/build example/ios/build",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*",
+    "react-native-vision-camera": ">=3"
+  },
+  "devDependencies": {
+    "@mgcrea/eslint-config-react-native": "^0.8.1",
+    "@react-native-community/eslint-config": "^3.2.0",
+    "@tsconfig/react-native": "^3.0.2",
+    "@types/jest": "^29.5.5",
+    "@types/react": "~18.2.22",
+    "@types/react-native": "0.72.2",
+    "bun-types": "^1.0.3",
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.3",
+    "react": "18.2.0",
+    "react-native": "0.72.4",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
