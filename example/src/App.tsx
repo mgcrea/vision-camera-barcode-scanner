@@ -63,7 +63,6 @@ export default function App() {
   })*/
 
   const devices = useCameraDevices();
-  console.log({devices});
   const device = devices.find(({position}) => position === 'back');
   const format = useCameraFormat(device, [
     {videoResolution: {width: 1280, height: 768}},
@@ -92,6 +91,7 @@ export default function App() {
 }
 
 const requestCameraPermission = async () => {
+  await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.CAMERA);
   try {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,

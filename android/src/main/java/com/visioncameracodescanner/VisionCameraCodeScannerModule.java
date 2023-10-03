@@ -14,6 +14,7 @@ import java.util.Map;
 public class VisionCameraCodeScannerModule extends ReactContextBaseJavaModule {
 
   public static final String NAME = "VisionCameraCodeScanner";
+  private int listenerCount = 0;
 
   public VisionCameraCodeScannerModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -23,6 +24,23 @@ public class VisionCameraCodeScannerModule extends ReactContextBaseJavaModule {
   @NonNull
   public String getName() {
     return NAME;
+  }
+
+  @ReactMethod
+  public void addListener(String eventName) {
+    if (listenerCount == 0) {
+      // Set up any upstream listeners or background tasks as necessary
+    }
+
+    listenerCount += 1;
+  }
+
+  @ReactMethod
+  public void removeListeners(Integer count) {
+    listenerCount -= count;
+    if (listenerCount == 0) {
+      // Remove upstream listeners, stop unnecessary background tasks
+    }
   }
 
   // Example method
