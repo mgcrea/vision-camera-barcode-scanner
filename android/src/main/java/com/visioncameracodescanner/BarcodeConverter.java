@@ -263,6 +263,11 @@ public class BarcodeConverter {
     int type = barcode.getValueType();
 
     switch (type) {
+      case Barcode.TYPE_UNKNOWN:
+      case Barcode.TYPE_ISBN:
+      case Barcode.TYPE_TEXT:
+        map.put("data", barcode.getRawValue());
+        break;
       case Barcode.TYPE_CONTACT_INFO:
         map.put("data", convertToMap(barcode.getContactInfo()));
         break;

@@ -18,9 +18,3 @@ export interface FrameProcessorPlugin {
     options?: Record<string, ParameterType>,
   ) => ParameterType;
 }
-
-export type VisionCameraConstants = {
-  MODULE_NAME: string;
-  BARCODE_TYPES: { [key: string]: number };
-  BARCODE_FORMATS: { [key: string]: number };
-};
