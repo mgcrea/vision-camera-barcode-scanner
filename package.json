@@ -28,7 +28,7 @@
     "typecheck": "tsc --noEmit",
     "spec": "bun test test/",
     "test": "bun run lint && bun run prettycheck && bun run typecheck && bun run spec",
-    "prettify": "prettier --write src/ test/",
+    "prettify": "prettier --write 'android/src/**/*.java' src/ test/",
     "clean": "rm -rf android/build example/android/build example/android/app/build example/ios/build",
     "prepublishOnly": "bun run build"
   },
@@ -52,6 +52,7 @@
     "bun-types": "^1.0.3",
     "eslint": "^8.49.0",
     "prettier": "^3.0.3",
+    "prettier-plugin-java": "^2.3.1",
     "react": "18.2.0",
     "react-native": "0.72.4",
     "tsup": "^7.2.0",
