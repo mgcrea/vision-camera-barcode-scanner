@@ -1,6 +1,6 @@
 {
   "name": "@mgcrea/vision-camera-code-scanner",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Code scanner library fore React Native Vision Camera",
   "author": "Olivier Louvignes <olivier@mgcrea.io>",
   "repository": "github:mgcrea/vision-camera-code-scanner",
