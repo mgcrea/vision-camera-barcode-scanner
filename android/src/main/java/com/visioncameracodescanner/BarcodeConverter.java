@@ -9,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Converter util class used to convert Barcode related variables to either WritableNativeArray or
- * WritableNativeMap
- */
 public class BarcodeConverter {
 
   public static List<Object> convertToArray(@NonNull Point[] points) {
@@ -265,14 +261,8 @@ public class BarcodeConverter {
     Map<String, Object> map = new HashMap<>();
 
     int type = barcode.getValueType();
-    map.put("type", type);
 
     switch (type) {
-      case Barcode.TYPE_UNKNOWN:
-      case Barcode.TYPE_ISBN:
-      case Barcode.TYPE_TEXT:
-        map.put("data", barcode.getRawValue());
-        break;
       case Barcode.TYPE_CONTACT_INFO:
         map.put("data", convertToMap(barcode.getContactInfo()));
         break;
@@ -328,8 +318,9 @@ public class BarcodeConverter {
       map.put("rawValue", rawValue);
     }
 
-    map.put("content", convertContent(barcode));
+    map.put("type", barcode.getValueType());
     map.put("format", barcode.getFormat());
+    map.put("content", convertContent(barcode));
 
     return map;
   }

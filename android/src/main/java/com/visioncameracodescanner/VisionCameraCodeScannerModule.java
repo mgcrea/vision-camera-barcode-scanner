@@ -36,6 +36,8 @@ public class VisionCameraCodeScannerModule extends ReactContextBaseJavaModule {
   public Map<String, Object> getConstants() {
     final Map<String, Object> constants = new HashMap<>();
 
+    constants.put("MODULE_NAME", NAME);
+
     Map<String, Number> barcodeType = new HashMap<>();
     barcodeType.put("TYPE_UNKNOWN", Barcode.TYPE_UNKNOWN);
     barcodeType.put("TYPE_ISBN", Barcode.TYPE_ISBN);

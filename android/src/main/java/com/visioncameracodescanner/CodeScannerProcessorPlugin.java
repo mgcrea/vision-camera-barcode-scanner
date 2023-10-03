@@ -3,15 +3,13 @@ package com.visioncameracodescanner;
 // https://github.com/googlesamples/mlkit/blob/master/android/android-snippets/app/src/main/java/com/google/example/mlkit/BarcodeScanningActivity.java
 
 import android.graphics.ImageFormat;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.media.Image;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeArray;
-import com.facebook.react.bridge.WritableNativeMap;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -26,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,8 +34,12 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
       .setBarcodeFormats(
         Barcode.FORMAT_CODE_128,
         Barcode.FORMAT_CODE_39,
+        Barcode.FORMAT_CODE_93,
         Barcode.FORMAT_EAN_13,
-        Barcode.FORMAT_EAN_8
+        Barcode.FORMAT_EAN_8,
+        Barcode.FORMAT_UPC_A,
+        Barcode.FORMAT_UPC_E,
+        Barcode.FORMAT_QR_CODE
       )
       .build();
   }
@@ -91,4 +92,5 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
     }
     return result;
   }
+
 }
