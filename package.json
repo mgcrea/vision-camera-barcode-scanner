@@ -20,7 +20,7 @@
   },
   "files": [
     "dist",
-    "android/{src/**/*.java,build.gradle,gradle.properties}",
+    "android/{src/**/*.{java,xml},build.gradle,gradle.properties}",
     "ios/*.{h,m,mm}",
     "*.podspec"
   ],
