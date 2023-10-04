@@ -490,12 +490,12 @@ PODS:
     - React-logger (= 0.72.4)
     - React-perflogger (= 0.72.4)
   - SocketRocket (0.6.1)
-  - VisionCamera (3.0.0):
+  - VisionCamera (3.2.2):
     - React
     - React-callinvoker
     - React-Core
     - react-native-worklets-core
-  - VisionCameraCodeScanner (0.1.0):
+  - VisionCameraCodeScanner (0.3.3):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - VisionCamera
@@ -568,7 +568,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
-  - VisionCameraCodeScanner (from `../node_modules/vision-camera-code-scanner`)
+  - "VisionCameraCodeScanner (from `../node_modules/@mgcrea/vision-camera-code-scanner`)"
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -671,7 +671,7 @@ EXTERNAL SOURCES:
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   VisionCameraCodeScanner:
-    :path: "../node_modules/vision-camera-code-scanner"
+    :path: "../node_modules/@mgcrea/vision-camera-code-scanner"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -728,8 +728,8 @@ SPEC CHECKSUMS:
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  VisionCamera: 9be9a96959550faba434896a60fc1be843fca5af
-  VisionCameraCodeScanner: 0ad90f2ed38fbd1096163daa8e9e1bde6924a7ff
+  VisionCamera: cb27c70cea1439e9a946bf2acdc059f8fb1bc68c
+  VisionCameraCodeScanner: ed843b6c057aabb4659bbe053047de0ef09748a6
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
