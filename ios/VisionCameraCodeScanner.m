@@ -8,6 +8,10 @@
   bool hasListeners;
 }
 
++ (NSString*)name {
+  return @"VisionCameraCodeScanner";
+}
+
 RCT_EXPORT_MODULE();
 
 - (instancetype)init;
@@ -20,7 +24,7 @@ RCT_EXPORT_MODULE();
   return self;
 }
 
-- (NSArray<NSString *> *)supportedEvents {
+- (NSArray<NSString*>*)supportedEvents {
   return @[ @"onBarcodeDetected" ];
 }
 
@@ -30,6 +34,10 @@ RCT_EXPORT_MODULE();
 
 - (void)stopObserving {
   hasListeners = NO;
+}
+
+- (NSDictionary*)constantsToExport {
+  return @{@"MODULE_NAME" : [[self class] name]};
 }
 
 + (BOOL)requiresMainQueueSetup {

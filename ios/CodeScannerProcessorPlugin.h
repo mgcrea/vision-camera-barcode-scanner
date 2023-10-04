@@ -10,8 +10,8 @@
 #import "VisionCameraCodeScanner.h"
 
 @interface CodeScannerProcessorPlugin : FrameProcessorPlugin
-@property(nonatomic, strong) VisionCameraCodeScanner *eventEmitter;
-+ (void)setEventEmitter:(RCTEventEmitter *)eventEmitter;
+@property(nonatomic, strong) VisionCameraCodeScanner* eventEmitter;
++ (void)setEventEmitter:(RCTEventEmitter*)eventEmitter;
 @end
 
 #endif /* CodeScannerProcessorPlugin_h */

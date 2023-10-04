@@ -11,44 +11,48 @@ static RCTEventEmitter* eventEmitter = nil;
 }
 
 /**
-  * Frame processor callback that is called when a new frame is available.
-  * 
-  * @param frame The frame that is available.
-  * @param arguments The arguments that were passed to the frame processor.
-  */  
+ * Frame processor callback that is called when a new frame is available.
+ *
+ * @param frame The frame that is available.
+ * @param arguments The arguments that were passed to the frame processor.
+ */
 - (id)callback:(Frame*)frame withArguments:(NSDictionary*)arguments {
   CMSampleBufferRef buffer = frame.buffer;
   UIImageOrientation orientation = frame.orientation;
 
   CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(buffer);
+    size_t width = CVPixelBufferGetWidth(pixelBuffer);
+    size_t height = CVPixelBufferGetHeight(pixelBuffer);
+    NSLog(@"width: %zu, height: %zu", width, height);
+
+  dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+  __block NSMutableArray* result = [NSMutableArray new];
 
   [self
       detectBarcodeInBuffer:pixelBuffer
                  completion:^(NSArray* observations) {
                    for (VNBarcodeObservation* observation in observations) {
                      NSLog(@"Payload: %@", observation.payloadStringValue);
-                     NSDictionary* result =
-                         [self dictionaryFromObservation:observation];
-                     [result
-                         setValue:[NSNumber numberWithInt:orientation]
-                           forKey:@"orientation"];
-                     [eventEmitter sendEventWithName:@"onBarcodeDetected"
-                                                body:result];
+                     NSDictionary* observationResult = [self dictionaryFromObservation:observation];
+                     // [observationResult setValue:[NSNumber numberWithInt:orientation] forKey:@"orientation"];
+                     [eventEmitter sendEventWithName:@"onBarcodeDetected" body:observationResult];
+                     [result addObject:observationResult];
                    }
+                   dispatch_semaphore_signal(semaphore);
                  }];
 
-  return @{
-    @"orientation" : [NSNumber numberWithInt:orientation]
-  };
+  dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
+  return result;
 }
 
 /**
-  * Detects barcodes in the given pixel buffer and calls the completion handler
-  * with the results.
-  *
-  * @param pixelBuffer The pixel buffer to detect barcodes in.
-  * @param completion The completion handler to call with the results.
-  */
+ * Detects barcodes in the given pixel buffer and calls the completion handler
+ * with the results.
+ *
+ * @param pixelBuffer The pixel buffer to detect barcodes in.
+ * @param completion The completion handler to call with the results.
+ */
 - (void)detectBarcodeInBuffer:(CVPixelBufferRef)pixelBuffer
                    completion:(void (^)(NSArray*))completion {
   VNImageRequestHandler* handler =
@@ -75,11 +79,11 @@ static RCTEventEmitter* eventEmitter = nil;
 }
 
 /**
-  * Converts a barcode observation to a dictionary representation.
-  *
-  * @param observation The observation to convert.
-  * @return A dictionary representation of the observation.
-  */
+ * Converts a barcode observation to a dictionary representation.
+ *
+ * @param observation The observation to convert.
+ * @return A dictionary representation of the observation.
+ */
 - (NSDictionary*)dictionaryFromObservation:(VNBarcodeObservation*)observation {
   NSMutableDictionary* observationRepresentation = [@{
     @"uuid" : observation.uuid.UUIDString,
@@ -129,8 +133,8 @@ static RCTEventEmitter* eventEmitter = nil;
 }
 
 /**
-  * Sets the event emitter that will be used to send events to the JS side.
-  */
+ * Sets the event emitter that will be used to send events to the JS side.
+ */
 + (void)setEventEmitter:(RCTEventEmitter*)eventEmitterArg {
   eventEmitter = eventEmitterArg;
 }
@@ -141,7 +145,7 @@ static RCTEventEmitter* eventEmitter = nil;
  */
 + (void)load {
   [FrameProcessorPluginRegistry
-      addFrameProcessorPlugin:@"codeScanner"
+      addFrameProcessorPlugin:[VisionCameraCodeScanner name]
               withInitializer:^FrameProcessorPlugin*(NSDictionary* options) {
                 return [[CodeScannerProcessorPlugin alloc]
                     initWithOptions:options];

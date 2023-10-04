@@ -5,6 +5,7 @@
 #import <React/RCTEventEmitter.h>
 
 @interface VisionCameraCodeScanner : RCTEventEmitter <RCTBridgeModule>
++ (NSString*)name;
 @end
 
 #endif /* VisionCameraCodeScanner_h */
