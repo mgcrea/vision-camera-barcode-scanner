@@ -1,6 +1,7 @@
 import { NativeModules, NativeEventEmitter, Platform } from "react-native";
 import { VisionCameraProxy, type Frame } from "react-native-vision-camera";
 import type {
+  iOSBarcode,
   AndroidResponse,
   FrameProcessorPlugin,
   VisionCameraConstants,
@@ -33,9 +34,12 @@ export const visionCameraEventEmitter = new NativeEventEmitter(
 export const visionCameraProcessorPlugin =
   VisionCameraProxy.getFrameProcessorPlugin(
     MODULE_NAME,
-  ) as FrameProcessorPlugin;
+  ) as FrameProcessorPlugin | null;
 
-export const scanBarcodes = (frame: Frame): AndroidResponse => {
+export const scanBarcodes = (frame: Frame) => {
   "worklet";
-  return visionCameraProcessorPlugin.call(frame) as unknown as AndroidResponse;
+  if (visionCameraProcessorPlugin == null) {
+    throw new Error(`Failed to load Frame Processor Plugin "${MODULE_NAME}"!`);
+  }
+  return visionCameraProcessorPlugin.call(frame) as unknown as iOSBarcode[];
 };

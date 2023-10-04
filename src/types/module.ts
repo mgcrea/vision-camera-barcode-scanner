@@ -1,4 +1,5 @@
 import type { AndroidBarcode } from "./android";
+import { iOSBarcode } from "./ios";
 
 export type VisionCameraConstants = {
   MODULE_NAME: string;
@@ -21,3 +22,5 @@ export type AndroidResponse = {
   image: AndroidImage;
   barcodes: AndroidBarcode[];
 };
+
+export type iOSResponse = iOSBarcode[];

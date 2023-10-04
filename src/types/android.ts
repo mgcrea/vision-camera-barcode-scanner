@@ -1,3 +1,5 @@
+import type { Point } from "./common";
+
 import type {
   AndroidAddressType,
   AndroidBarcodeFormat,
@@ -150,19 +152,11 @@ export interface AndroidRect {
 }
 
 /**
- * @see https://developer.android.com/reference/android/graphics/Point.html
- */
-export interface AndroidPoint {
-  x: number;
-  y: number;
-}
-
-/**
  * @see https://developers.google.com/android/reference/com/google/mlkit/vision/barcode/Barcode
  */
 export type AndroidBarcode = {
   boundingBox?: AndroidRect;
-  cornerPoints?: AndroidPoint[];
+  cornerPoints?: Point[];
   displayValue?: string;
   rawValue?: string;
   format: AndroidBarcodeFormat;
