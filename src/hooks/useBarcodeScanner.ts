@@ -14,13 +14,13 @@ import { computeHighlights } from "src/utils";
 export type UseBarcodeScannerOptions = {
   fps?: number;
   codeTypes?: CodeType[];
-  onCodeScanned: (barcodes: Barcode[]) => void;
+  onBarcodeScanned: (barcodes: Barcode[]) => void;
   disableHighlighting?: boolean;
 };
 
 export const useBarcodeScanner = ({
   codeTypes,
-  onCodeScanned,
+  onBarcodeScanned,
   disableHighlighting,
   fps = 2,
 }: UseBarcodeScannerOptions) => {
@@ -61,7 +61,7 @@ export const useBarcodeScanner = ({
         }
 
         if (barcodes.length > 0) {
-          onCodeScanned(barcodes);
+          onBarcodeScanned(barcodes);
         }
       });
     },
