@@ -18,12 +18,9 @@ static RCTEventEmitter* eventEmitter = nil;
  */
 - (id)callback:(Frame*)frame withArguments:(NSDictionary*)arguments {
   CMSampleBufferRef buffer = frame.buffer;
-  UIImageOrientation orientation = frame.orientation;
+  // UIImageOrientation orientation = frame.orientation;
 
   CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(buffer);
-    size_t width = CVPixelBufferGetWidth(pixelBuffer);
-    size_t height = CVPixelBufferGetHeight(pixelBuffer);
-    NSLog(@"width: %zu, height: %zu", width, height);
 
   dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
   __block NSMutableArray* result = [NSMutableArray new];
@@ -125,8 +122,10 @@ static RCTEventEmitter* eventEmitter = nil;
       @"duration" : @(CMTimeGetSeconds(observation.timeRange.duration)),
       @"start" : @(CMTimeGetSeconds(observation.timeRange.start))
     };
-  } else {
-    // Fallback on earlier versions
+  }
+
+  if (@available(iOS 17.0, *)) {
+    observationRepresentation[@"supplementalPayload"] = observation.supplementalPayloadString ?: [NSNull null];
   }
 
   return [observationRepresentation copy];

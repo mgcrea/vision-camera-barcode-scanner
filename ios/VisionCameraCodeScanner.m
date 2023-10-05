@@ -36,6 +36,12 @@ RCT_EXPORT_MODULE();
   hasListeners = NO;
 }
 
+- (void)sendEventWithName:(NSString*)eventName body:(id)body {
+  if (hasListeners) {
+    [super sendEventWithName:eventName body:body];
+  }
+}
+
 - (NSDictionary*)constantsToExport {
   return @{@"MODULE_NAME" : [[self class] name]};
 }
