@@ -22,7 +22,7 @@ export const useBarcodeScanner = ({
   onCodeScanned,
   disableHighlighting,
   fps = 2,
-}: UseCodeScannerOptions) => {
+}: UseBarcodeScannerOptions) => {
   const ref = useRef<Camera>(null);
 
   // Layout of the <Camera /> component

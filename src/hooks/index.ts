@@ -1,1 +1,1 @@
-export * from "./useCodeScanner";
+export * from "./useBarcodeScanner";
