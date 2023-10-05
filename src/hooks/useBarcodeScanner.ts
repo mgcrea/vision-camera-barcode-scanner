@@ -4,6 +4,7 @@ import {
   runAtTargetFps,
   useFrameProcessor,
   type Camera,
+  type CameraProps,
 } from "react-native-vision-camera";
 import { Worklets } from "react-native-worklets-core";
 import { scanCodes } from "src/module";
@@ -38,7 +39,8 @@ export const useBarcodeScanner = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const setHighlightsJS = Worklets.createRunInJsFn(setHighlights);
 
-  const pixelFormat = Platform.OS === "android" ? "yuv" : "native";
+  const pixelFormat: CameraProps["pixelFormat"] =
+    Platform.OS === "android" ? "yuv" : "native";
   const frameProcessor = useFrameProcessor(
     (frame) => {
       "worklet";

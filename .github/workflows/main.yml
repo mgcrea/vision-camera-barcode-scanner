@@ -17,26 +17,23 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-      - name: Setup pnpm 🔧
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Setup bun 🔧
+        uses: oven-sh/setup-bun@v1
       - name: Setup node 🔧
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-          cache: "pnpm"
       - name: Install 🪄
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
       - name: Lint 🔍
-        run: pnpm run lint
+        run: bun run lint
       - name: Prettier 🔍
-        run: pnpm run prettycheck
+        run: bun run prettycheck
       - name: TypeScript 🔍
-        run: pnpm run typecheck
+        run: bun run typecheck
       - name: Vitest 🔍
-        run: pnpm run spec
+        run: bun run spec
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -46,17 +43,14 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v3
-      - name: Setup pnpm 🔧
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
+      - name: Setup bun 🔧
+        uses: oven-sh/setup-bun@v1
       - name: Setup node 🔧
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
           check-latest: true
-          cache: "pnpm"
       - name: Install 🪄
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
       - name: Build 💎
-        run: pnpm run build
+        run: bun run build
