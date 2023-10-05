@@ -7,9 +7,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.Image;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -50,6 +48,8 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
     @Nullable Map<String, Object> params
   ) {
     Image mediaImage = frame.getImage();
+
+    // Check if the image is in a supported format
     int format = mediaImage.getFormat();
     if (format != ImageFormat.YUV_420_888) {
       Log.e(
@@ -61,17 +61,7 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
       return null;
     }
 
-    Map<String, Object> result = new HashMap<>();
-
-    Map<String, Object> image = new HashMap<>();
-    image.put("width", mediaImage.getWidth());
-    image.put("height", mediaImage.getHeight());
-    image.put("orientation", frame.getOrientation());
-    image.put("pixelFormat", frame.getPixelFormat());
-    result.put("image", image);
-
     List<Object> barcodes = new ArrayList<>();
-    result.put("barcodes", barcodes);
 
     InputImage inputImage = InputImage.fromMediaImage(
       mediaImage,
@@ -86,11 +76,11 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
       for (Barcode barcode : barcodeList) {
         barcodes.add(BarcodeConverter.convertBarcode(barcode));
       }
-    } catch (Exception e) {
-      e.printStackTrace();
-      result.put("error", e.getMessage());
+    } catch (Exception err) {
+      Log.e(VisionCameraCodeScannerModule.NAME, err.getMessage());
+      return null;
     }
-    return result;
-  }
 
+    return barcodes;
+  }
 }
