@@ -11,10 +11,11 @@ const APP_NAME = 'My App';
 export const requestCameraPermission = async (): Promise<
   PermissionStatus | 'restricted'
 > => {
+  const cameraPermission = await Camera.getCameraPermissionStatus();
+  console.log({cameraPermission});
   if (Platform.OS === 'android') {
     return await requestAndroidCameraPermission();
   }
-  const cameraPermission = await Camera.getCameraPermissionStatus();
   if (cameraPermission === 'not-determined') {
     const newCameraPermission = await Camera.requestCameraPermission();
     if (newCameraPermission !== 'granted') {
