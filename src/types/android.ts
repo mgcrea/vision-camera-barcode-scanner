@@ -1,4 +1,3 @@
-import type { Point } from "./common";
 import type {
   AndroidAddressType,
   AndroidBarcodeFormat,
@@ -7,6 +6,7 @@ import type {
   AndroidEncryptionType,
   AndroidPhoneType,
 } from "src/constants/android";
+import type { Point } from "./common";
 
 /**
  * {@link https://developers.google.com/android/reference/com/google/mlkit/vision/barcode/Barcode.Address}

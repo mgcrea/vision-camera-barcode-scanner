@@ -1,13 +1,8 @@
 import { Platform } from "react-native";
-import type {
-  CameraProps,
-  Orientation,
-  Frame,
-} from "react-native-vision-camera";
-import type { Point, Size, Barcode, BarcodeHighlight } from "src/types";
-import { computeBoundingBoxFromCornerPoints } from "./convert";
+import type { CameraProps, Orientation } from "react-native-vision-camera";
+import type { Point, Size } from "src/types";
 
-const applyScaleFactor = (
+export const applyScaleFactor = (
   { x, y }: Point,
   source: Size,
   target: Size,
@@ -32,12 +27,6 @@ const applyScaleFactor = (
   let newX = x * scaleFactor;
   let newY = y * scaleFactor;
 
-  // iOS is using normalized coordinates
-  // if (Platform.OS === 'ios') {
-  //   newX *= source.width;
-  //   newY *= source.height;
-  // }
-
   // Center the image if it's contain mode
   if (resizeMode === "contain") {
     if (ratio.width < ratio.height) {
@@ -49,6 +38,7 @@ const applyScaleFactor = (
 
   return { x: newX, y: newY };
 };
+
 export const applyTransformation = (
   { x, y }: Point,
   { width, height }: Size,
@@ -66,6 +56,12 @@ export const applyTransformation = (
     }
   } else if (Platform.OS === "ios") {
     switch (orientation) {
+      case "portrait":
+        return { x: height - y, y: width - x };
+      case "landscape-left":
+        return { x: width - x, y: y };
+      case "landscape-right":
+        return { x, y: height - y };
       case "portrait-upside-down":
         return { x: y, y: x };
       default:
@@ -75,42 +71,4 @@ export const applyTransformation = (
   } else {
     throw new Error(`Unsupported platform: ${Platform.OS}`);
   }
-};
-export const computeHighlights = (
-  barcodes: Barcode[],
-  frame: Frame,
-  layout: Size,
-): BarcodeHighlight[] => {
-  "worklet";
-  console.log(
-    `frame: ${frame.width}x${frame.height} (${
-      frame.orientation
-    }) -> layout: ${layout.width.toFixed(2)}x${layout.height.toFixed(2)}`,
-  );
-
-  const highlights = barcodes.map<BarcodeHighlight>(
-    ({ value, cornerPoints }, index) => {
-      let translatedCornerPoints;
-
-      translatedCornerPoints = cornerPoints?.map((point) =>
-        applyScaleFactor(point, frame, layout, "contain"),
-      );
-
-      translatedCornerPoints = translatedCornerPoints?.map((point) =>
-        applyTransformation(point, layout, frame.orientation),
-      );
-
-      const valueFromCornerPoints = computeBoundingBoxFromCornerPoints(
-        translatedCornerPoints!,
-      );
-
-      return {
-        key: `${value}.${index}`,
-        ...valueFromCornerPoints,
-      };
-    },
-  );
-  console.log(JSON.stringify({ highlights }, null, 2));
-
-  return highlights;
 };

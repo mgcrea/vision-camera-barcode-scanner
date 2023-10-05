@@ -1,2 +1,4 @@
 export * from "./convert";
-export * from "./highlight";
+export * from "./geometry";
+export * from "./highlights";
+export * from "./types";

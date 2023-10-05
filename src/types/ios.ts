@@ -1,4 +1,4 @@
-import { Size, Point } from "./common";
+import { Point, Size } from "./common";
 
 export type iOSBoundingBox = {
   origin: Point;
@@ -15,7 +15,7 @@ export type iOSCorners = {
 /**
  * {@link https://developer.apple.com/documentation/vision/vnbarcodesymbology}
  */
-export type iOSBarcodeSymbology =
+export type iOSSymbology =
   | "VNBarcodeSymbologyAztec"
   | "VNBarcodeSymbologyCode39"
   | "VNBarcodeSymbologyCode39Checksum"
@@ -46,7 +46,7 @@ export type iOSBarcodeSymbology =
 export type iOSBarcode = {
   boundingBox: iOSBoundingBox;
   timeRange?: { start: number; duration: number } /* iOS 14.0+ */;
-  symbology: iOSBarcodeSymbology;
+  symbology: iOSSymbology;
   confidence: number;
   uuid: string;
   payload: string;

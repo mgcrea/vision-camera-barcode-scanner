@@ -10,10 +10,28 @@ export type VisionCameraConstants = {
 
 export type BoundingBox = iOSBoundingBox;
 export type CornerPoints = Point[];
-export type BarcodeHighlight = BoundingBox & { key: Key };
+export type Highlight = BoundingBox & { key: Key };
+export type CodeType =
+  | "aztec"
+  | "codabar"
+  | "code-128"
+  | "code-39"
+  | "code-93"
+  | "data-matrix"
+  | "ean-13"
+  | "ean-8"
+  | "gs1-databar"
+  | "itf"
+  | "msi-plessey"
+  | "pdf-417"
+  | "qr"
+  | "upc-a"
+  | "upc-e"
+  | "unknown";
 
 export type Barcode = {
-  value: string;
+  value: string | null;
+  type: CodeType;
   boundingBox: BoundingBox;
   cornerPoints: Point[];
   native: iOSBarcode | AndroidBarcode;

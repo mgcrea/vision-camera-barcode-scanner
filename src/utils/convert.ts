@@ -1,12 +1,13 @@
 import { Platform } from "react-native";
 import type { Frame } from "react-native-vision-camera";
 import type {
-  iOSBarcode,
   AndroidBarcode,
   Barcode,
   BoundingBox,
   Point,
+  iOSBarcode,
 } from "src/types";
+import { normalizeAndroidCodeType, normalizeiOSCodeType } from "./types";
 
 export const isIOSBarcode = (
   barcode: iOSBarcode | AndroidBarcode,
@@ -42,35 +43,42 @@ export const computeBoundingBoxFromCornerPoints = (
   };
 };
 
+export const normalizePrecision = (number: number): number => {
+  "worklet";
+  return Number(number.toFixed(0));
+};
+
 export const normalizeNativeBarcode = (
   barcode: iOSBarcode | AndroidBarcode,
   frame: Frame,
 ): Barcode => {
   "worklet";
   if (isIOSBarcode(barcode)) {
-    const { boundingBox, payload, corners } = barcode;
+    const { payload, symbology, boundingBox, corners } = barcode;
     return {
       value: payload,
+      type: normalizeiOSCodeType(symbology),
       boundingBox: {
         origin: {
-          x: boundingBox.origin.x * frame.width,
-          y: boundingBox.origin.y * frame.height,
+          x: normalizePrecision(boundingBox.origin.x * frame.width),
+          y: normalizePrecision(boundingBox.origin.y * frame.height),
         },
         size: {
-          width: boundingBox.size.width * frame.width,
-          height: boundingBox.size.height * frame.height,
+          width: normalizePrecision(boundingBox.size.width * frame.width),
+          height: normalizePrecision(boundingBox.size.height * frame.height),
         },
       },
       cornerPoints: Object.values(corners).map(({ x, y }) => ({
-        x: x * frame.width,
-        y: y * frame.height,
+        x: normalizePrecision(x * frame.width),
+        y: normalizePrecision(y * frame.height),
       })),
       native: barcode,
     };
   } else if (isAndroidBarcode(barcode)) {
-    const { rawValue, cornerPoints } = barcode;
+    const { rawValue, format, cornerPoints } = barcode;
     return {
       value: rawValue,
+      type: normalizeAndroidCodeType(format),
       boundingBox: computeBoundingBoxFromCornerPoints(cornerPoints),
       cornerPoints,
       native: barcode,
