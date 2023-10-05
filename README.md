@@ -50,11 +50,11 @@ A working project can be found at [vision-camera-barcode-scanner-example](./exam
 ## Install
 
 ```bash
-npm install @mgcrea/vision-camera-code-scanner
+npm install @mgcrea/vision-camera-barcode-scanner
 # or
-yarn add @mgcrea/vision-camera-code-scanner
+yarn add @mgcrea/vision-camera-barcode-scanner
 # or
-pnpm add @mgcrea/vision-camera-code-scanner
+pnpm add @mgcrea/vision-camera-barcode-scanner
 ```
 
 ### Dependencies
