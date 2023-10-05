@@ -2,10 +2,12 @@ import { NativeModules, NativeEventEmitter, Platform } from "react-native";
 import { VisionCameraProxy, type Frame } from "react-native-vision-camera";
 import type {
   iOSBarcode,
-  AndroidResponse,
   FrameProcessorPlugin,
   VisionCameraConstants,
+  AndroidBarcode,
+  Barcode,
 } from "./types";
+import { normalizeNativeBarcode } from "./utils";
 
 const LINKING_ERROR =
   `The package 'vision-camera-code-scanner' doesn't seem to be linked. Make sure: \n\n` +
@@ -36,10 +38,16 @@ export const visionCameraProcessorPlugin =
     MODULE_NAME,
   ) as FrameProcessorPlugin | null;
 
-export const scanBarcodes = (frame: Frame) => {
+export const scanBarcodes = (frame: Frame): Barcode[] => {
   "worklet";
   if (visionCameraProcessorPlugin == null) {
     throw new Error(`Failed to load Frame Processor Plugin "${MODULE_NAME}"!`);
   }
-  return visionCameraProcessorPlugin.call(frame) as unknown as iOSBarcode[];
+  const nativeBarcodes = visionCameraProcessorPlugin.call(frame) as unknown as (
+    | AndroidBarcode
+    | iOSBarcode
+  )[];
+  return nativeBarcodes.map((nativeBarcode) =>
+    normalizeNativeBarcode(nativeBarcode, frame),
+  );
 };

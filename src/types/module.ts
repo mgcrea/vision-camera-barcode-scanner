@@ -1,5 +1,6 @@
 import type { AndroidBarcode } from "./android";
-import { iOSBarcode } from "./ios";
+import type { Key, Point } from "./common";
+import type { iOSBarcode, iOSBoundingBox } from "./ios";
 
 export type VisionCameraConstants = {
   MODULE_NAME: string;
@@ -7,20 +8,13 @@ export type VisionCameraConstants = {
   BARCODE_FORMATS: { [key: string]: number };
 };
 
-export type AndroidImage = {
-  orientation:
-    | "portrait"
-    | "landscape-right"
-    | "landscape-left"
-    | "portrait-upside-down";
-  pixelFormat: "yuv" | "rgb" | "native" | "unknown";
-  width: number;
-  height: number;
-};
+export type BoundingBox = iOSBoundingBox;
+export type CornerPoints = Point[];
+export type BarcodeHighlight = BoundingBox & { key: Key };
 
-export type AndroidResponse = {
-  image: AndroidImage;
-  barcodes: AndroidBarcode[];
+export type Barcode = {
+  value: string;
+  boundingBox: BoundingBox;
+  cornerPoints: Point[];
+  native: iOSBarcode | AndroidBarcode;
 };
-
-export type iOSResponse = iOSBarcode[];
