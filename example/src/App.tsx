@@ -56,12 +56,12 @@ export default function App() {
     <View style={styles.container}>
       <Camera
         enableFpsGraph
-        // resizeMode={resizeMode}
-        // orientation="portrait-upside-down"
+        orientation="landscape-right"
         style={StyleSheet.absoluteFill}
         device={device}
         format={format}
         {...cameraProps}
+        resizeMode="contain"
         isActive
       />
       <CameraOverlay />
