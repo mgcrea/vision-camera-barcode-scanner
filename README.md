@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/npm/l/@mgcrea/vision-camera-barcode-scanner.svg?style=for-the-badge" alt="npm license" />
   </a>
   <br />
-  <a href="https://github.com/mgcrea/vision-camera-barcode-scanner/actions/workflows/main.yaml">
+  <a href="https://github.com/mgcrea/vision-camera-barcode-scanner/actions/workflows/main.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/mgcrea/vision-camera-barcode-scanner/main.yaml?style=for-the-badge&branch=master" alt="build status" />
   </a>
   <a href="https://depfu.com/github/mgcrea/vision-camera-barcode-scanner">
