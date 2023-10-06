@@ -21,7 +21,7 @@
   </a>
   <br />
   <a href="https://github.com/mgcrea/vision-camera-barcode-scanner/actions/workflows/main.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/mgcrea/vision-camera-barcode-scanner/main.yaml?style=for-the-badge&branch=master" alt="build status" />
+    <img src="https://img.shields.io/github/actions/workflow/status/mgcrea/vision-camera-barcode-scanner/main.yml?style=for-the-badge&branch=master" alt="build status" />
   </a>
   <a href="https://depfu.com/github/mgcrea/vision-camera-barcode-scanner">
     <img src="https://img.shields.io/depfu/dependencies/github/mgcrea/vision-camera-barcode-scanner?style=for-the-badge" alt="dependencies status" />
