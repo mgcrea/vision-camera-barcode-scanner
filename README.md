@@ -31,7 +31,7 @@
 
 ## Features
 
-Simple and flexible barcode scanner for React Native.
+High performance barcode scanner for React Native using VisionCamera.
 
 - **Modern and future-proof:** Built on [react-native-vision-camera v3](https://github.com/mrousavy/react-native-vision-camera) with minimal native dependencies for each platforms to minimize future build-failure risk.
 
