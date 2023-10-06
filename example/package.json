@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "android:devtools": "adb shell input keyevent 82",
     "android:clean": "cd android; ./gradlew clean; cd ..",
     "adb:install": "adb install android/app/build/outputs/apk/debug/*.apk",
     "ios": "react-native run-ios",
@@ -15,9 +16,9 @@
   "dependencies": {
     "@mgcrea/vision-camera-code-scanner": "link:../",
     "react": "18.2.0",
-    "react-native": "0.72.4",
-    "react-native-vision-camera": "3.2.2",
-    "react-native-worklets-core": "0.2.0"
+    "react-native": "0.72.5",
+    "react-native-vision-camera": "3.3.1",
+    "react-native-worklets-core": "0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
