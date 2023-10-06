@@ -45,7 +45,7 @@ export const computeBoundingBoxFromCornerPoints = (
 
 export const normalizePrecision = (number: number): number => {
   "worklet";
-  return Number(number.toFixed(0));
+  return Math.round(number);
 };
 
 export const normalizeNativeBarcode = (

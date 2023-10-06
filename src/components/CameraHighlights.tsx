@@ -1,21 +1,23 @@
 import React, { type FunctionComponent } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import type { Highlight, Point, Size } from "src/types";
 
 type CameraHighlightsProps = {
   highlights: Highlight[];
   color?: string;
+  style?: StyleProp<ViewStyle>;
 };
 export const CameraHighlights: FunctionComponent<CameraHighlightsProps> = ({
   highlights,
   color,
+  style,
 }) => {
   return (
-    <>
+    <View style={[StyleSheet.absoluteFill, style]}>
       {highlights.map(({ key, ...props }) => (
         <CameraHighlight key={key} color={color} {...props} />
       ))}
-    </>
+    </View>
   );
 };
 
