@@ -27,12 +27,22 @@ export const VisionCameraCodeScanner = NativeModules.VisionCameraCodeScanner
       },
     );
 
-export const { MODULE_NAME, BARCODE_TYPES, BARCODE_FORMATS } =
+const { MODULE_NAME, BARCODE_TYPES, BARCODE_FORMATS } =
   VisionCameraCodeScanner.getConstants() as VisionCameraConstants;
 
-export const visionCameraEventEmitter = new NativeEventEmitter(
+export { BARCODE_FORMATS, BARCODE_TYPES };
+
+const visionCameraEventEmitter = new NativeEventEmitter(
   VisionCameraCodeScanner,
 );
+
+export const onBarcodeDetected = (
+  callback: (barcode: iOSBarcode | AndroidBarcode) => unknown,
+) => {
+  visionCameraEventEmitter.addListener("onBarcodeDetected", (nativeBarcode) => {
+    callback(nativeBarcode);
+  });
+};
 
 const visionCameraProcessorPlugin = VisionCameraProxy.getFrameProcessorPlugin(
   MODULE_NAME,
