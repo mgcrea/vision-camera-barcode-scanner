@@ -17,7 +17,7 @@ export type UseBarcodeScannerOptions = {
   onBarcodeScanned: (barcodes: Barcode[]) => void;
   disableHighlighting?: boolean;
   defaultResizeMode?: CameraProps["resizeMode"];
-  scanMode?: "continuous" | "single";
+  scanMode?: "continuous" | "once";
 };
 
 export const useBarcodeScanner = ({
@@ -44,6 +44,7 @@ export const useBarcodeScanner = ({
     resizeModeRef.value = ref.current?.props.resizeMode || defaultResizeMode;
   }, [resizeModeRef, ref.current?.props.resizeMode, defaultResizeMode]);
 
+  //
   const isPristineRef = useSharedValue<boolean>(true);
 
   // Barcode highlights related state
@@ -66,13 +67,16 @@ export const useBarcodeScanner = ({
         const { value: layout } = layoutRef;
         const { value: prevBarcodes } = barcodesRef;
         const { value: resizeMode } = resizeModeRef;
+        // Call the native barcode scanner
         const barcodes = scanCodes(frame, codeTypes);
         // console.log(JSON.stringify(barcodes, null, 2));
 
         if (barcodes.length > 0) {
+          // If the scanMode is "continuous", we stream all the barcodes responses
           if (scanMode === "continuous") {
             onBarcodeScanned(barcodes);
-          } else if (scanMode === "single") {
+            // If the scanMode is "once", we only call the callback if the barcodes have actually changed
+          } else if (scanMode === "once") {
             const hasChanged =
               prevBarcodes.length !== barcodes.length ||
               JSON.stringify(prevBarcodes.map(({ value }) => value)) !==
@@ -83,13 +87,6 @@ export const useBarcodeScanner = ({
           }
 
           if (prevBarcodes.length !== barcodes.length) {
-            // console.log(
-            //   `frame: ${frame.width}x${frame.height} (${
-            //     frame.orientation
-            //   }) -> layout: ${layout.width.toFixed(2)}x${layout.height.toFixed(
-            //     2,
-            //   )}`,
-            // );
             onBarcodeScanned(barcodes);
           }
           barcodesRef.value = barcodes;
@@ -108,8 +105,8 @@ export const useBarcodeScanner = ({
             layout,
             resizeMode,
           );
-          // Spare a re-render if the highlights didn't change
-          if (prevHighlights.length && !highlights.length) {
+          // Spare a re-render if the highlights are both empty
+          if (prevHighlights.length === 0 && highlights.length === 0) {
             return;
           }
           setHighlightsJS(highlights);
