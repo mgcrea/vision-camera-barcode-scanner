@@ -33,9 +33,11 @@
 
 Simple and flexible barcode scanner for React Native.
 
-- **Modern and future-proof:** Built on [react-native-vision-camera v3](https://github.com/mrousavy/react-native-vision-camera)
+- **Modern and future-proof:** Built on [react-native-vision-camera v3](https://github.com/mrousavy/react-native-vision-camera) with minimal native dependencies for each platforms to minimize future build-failure risk.
 
 - **Minimal footprint:** Leverages [Google's MLKit BarcodeScanner](https://developers.google.com/android/reference/com/google/mlkit/vision/barcode/package-summary) on Android and [Apple's Vision VNDetectBarcodesRequest](https://developer.apple.com/documentation/vision/vndetectbarcodesrequest).
+
+- **Powerful & Performant:** The implementation has been tailored for advanced use cases where performance is critical. Scanning barcodes is butter smooth at 30fps, and you can customize the detection speed loop (detection fps).
 
 - **Hooks based:** Exposes easy-to-use hooks [`useBarcodeScanner`](./src/hooks/useBarcodeScanner.ts) to quickly get started
 
@@ -43,7 +45,7 @@ Simple and flexible barcode scanner for React Native.
 
 ## Demo
 
-<!-- ![demo](./.github/assets/demo.gif) -->
+![demo](./.github/assets/demo.gif)
 
 A working project can be found at [vision-camera-barcode-scanner-example](./example)
 
@@ -89,13 +91,18 @@ import type { FunctionComponent } from "react";
 import { StyleSheet } from "react-native";
 
 export const App: FunctionComponent = () => {
-  // @NOTE you must properly ask for camera permissions
+  // @NOTE you must properly ask for camera permissions first!
+  // You should use `PermissionsAndroid` for Android and `Camera.requestCameraPermission()` on iOS.
 
   const { props: cameraProps, highlights } = useBarcodeScanner({
-    fps: 2,
+    fps: 5,
     onBarcodeScanned: (barcodes) => {
       "worklet";
-      console.log(`Scanned ${barcodes.length} barcodes!`);
+      console.log(
+        `Scanned ${barcodes.length} codes with values=${JSON.stringify(
+          barcodes.map(({ value }) => value),
+        )} !`,
+      );
     },
   });
 
