@@ -65,7 +65,8 @@ dependencies {
   implementation "com.facebook.react:react-native"
   implementation "androidx.camera:camera-core:1.1.0-beta02"
   implementation 'com.google.mlkit:barcode-scanning:17.2.0'
-  api project(":react-native-vision-camera")
+  implementation project(":react-native-worklets-core")
+  implementation project(":react-native-vision-camera")
 }
 
 if (isNewArchitectureEnabled()) {
