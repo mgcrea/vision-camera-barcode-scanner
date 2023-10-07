@@ -111,12 +111,12 @@ export const App: FunctionComponent = () => {
   const format = useCameraFormat(device, [
     { videoResolution: { width: 1920, height: 1080 } },
   ]);
-  if (!device || !hasPermission) {
+  if (!device) {
     return null;
   }
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Camera
         style={StyleSheet.absoluteFill}
         device={device}
