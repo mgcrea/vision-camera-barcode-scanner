@@ -66,6 +66,10 @@ export const scanCodes = (
     frame,
     options,
   ) as unknown as (AndroidBarcode | iOSBarcode)[];
+  if (!Array.isArray(nativeCodes)) {
+    console.warn("Native frame processor failed to return a proper array!");
+    return [];
+  }
   return nativeCodes.map((nativeBarcode) =>
     normalizeNativeBarcode(nativeBarcode, frame),
   );
