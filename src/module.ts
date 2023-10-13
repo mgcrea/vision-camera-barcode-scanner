@@ -3,8 +3,9 @@ import { VisionCameraProxy, type Frame } from "react-native-vision-camera";
 import type {
   AndroidBarcode,
   Barcode,
-  CodeType,
+  BarcodeType,
   FrameProcessorPlugin,
+  Rect,
   VisionCameraConstants,
   iOSBarcode,
 } from "./types";
@@ -48,14 +49,23 @@ const visionCameraProcessorPlugin = VisionCameraProxy.getFrameProcessorPlugin(
   MODULE_NAME,
 ) as FrameProcessorPlugin | null;
 
-export const scanCodes = (frame: Frame, codeTypes?: CodeType[]): Barcode[] => {
+export type ScanBarcodesOptions = {
+  barcodeTypes?: BarcodeType[];
+  regionOfInterest?: Rect;
+};
+
+export const scanCodes = (
+  frame: Frame,
+  options?: ScanBarcodesOptions,
+): Barcode[] => {
   "worklet";
   if (visionCameraProcessorPlugin == null) {
     throw new Error(`Failed to load Frame Processor Plugin "${MODULE_NAME}"!`);
   }
-  const nativeCodes = visionCameraProcessorPlugin.call(frame, {
-    codeTypes,
-  }) as unknown as (AndroidBarcode | iOSBarcode)[];
+  const nativeCodes = visionCameraProcessorPlugin.call(
+    frame,
+    options,
+  ) as unknown as (AndroidBarcode | iOSBarcode)[];
   return nativeCodes.map((nativeBarcode) =>
     normalizeNativeBarcode(nativeBarcode, frame),
   );

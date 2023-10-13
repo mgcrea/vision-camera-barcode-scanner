@@ -1,5 +1,6 @@
 #import "CodeScannerProcessorPlugin.h"
 #include <Foundation/Foundation.h>
+#import <React/RCTLog.h>
 
 static RCTEventEmitter* eventEmitter = nil;
 
@@ -21,15 +22,44 @@ static RCTEventEmitter* eventEmitter = nil;
   // UIImageOrientation orientation = frame.orientation;
 
   CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(buffer);
+  size_t width = CVPixelBufferGetWidth(pixelBuffer);
+  size_t height = CVPixelBufferGetHeight(pixelBuffer);
+  RCTLogInfo(@"Processing frame with width: %lu, height: %lu and arguments: %@", width, height, arguments);
+
+  // Parse the barcode types to be detected
+  NSDictionary* barcodeTypes = arguments[@"barcodeTypes"];
+  NSMutableArray* symbologies = [NSMutableArray new];
+  for (NSString* key in barcodeTypes) {
+    NSString* barcodeType = [barcodeTypes objectForKey:key];
+    VNBarcodeSymbology symbology = [self barcodeSymbologyFromString:barcodeType];
+    if (symbology != nil) {
+      [symbologies addObject:symbology];
+    }
+  }
+
+  // Parse the regions of interest
+  NSDictionary* regionOfInterestArg = arguments[@"regionOfInterest"];
+  CGRect regionOfInterest = CGRectZero;
+  if (regionOfInterestArg) {
+    NSNumber* x = [regionOfInterestArg objectForKey:@"x"];
+    NSNumber* y = [regionOfInterestArg objectForKey:@"y"];
+    NSNumber* width = [regionOfInterestArg objectForKey:@"width"];
+    NSNumber* height = [regionOfInterestArg objectForKey:@"height"];
+    if (x && y && width && height) {
+      regionOfInterest = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
+    }
+  }
 
   dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
   __block NSMutableArray* result = [NSMutableArray new];
 
   [self
       detectBarcodeInBuffer:pixelBuffer
+                symbologies:symbologies
+           regionOfInterest:regionOfInterest
                  completion:^(NSArray* observations) {
                    for (VNBarcodeObservation* observation in observations) {
-                     NSLog(@"Payload: %@", observation.payloadStringValue);
+                     NSLog(@"Payload: %@ (%@)", observation.payloadStringValue, observation.symbology);
                      NSDictionary* observationResult = [self dictionaryFromObservation:observation];
                      // [observationResult setValue:[NSNumber numberWithInt:orientation] forKey:@"orientation"];
                      [eventEmitter sendEventWithName:@"onBarcodeDetected" body:observationResult];
@@ -51,6 +81,8 @@ static RCTEventEmitter* eventEmitter = nil;
  * @param completion The completion handler to call with the results.
  */
 - (void)detectBarcodeInBuffer:(CVPixelBufferRef)pixelBuffer
+                  symbologies:(NSArray*)symbologies
+             regionOfInterest:(CGRect)regionOfInterest
                    completion:(void (^)(NSArray*))completion {
   VNImageRequestHandler* handler =
       [[VNImageRequestHandler alloc] initWithCVPixelBuffer:pixelBuffer
@@ -66,6 +98,18 @@ static RCTEventEmitter* eventEmitter = nil;
 
         completion(request.results);
       }];
+
+  // Set the symbologies to be detected
+  if (symbologies.count > 0) {
+    request.symbologies = symbologies;
+    RCTLogInfo(@"Filtering with symbologies: %@", request.symbologies);
+  }
+
+  // Set the region of interest
+  if (!CGRectEqualToRect(regionOfInterest, CGRectZero)) {
+    request.regionOfInterest = regionOfInterest;
+    RCTLogInfo(@"Filtering with regionOfInterest: %@", NSStringFromCGRect(request.regionOfInterest));
+  }
 
   NSError* error;
   [handler performRequests:@[ request ] error:&error];
@@ -129,6 +173,46 @@ static RCTEventEmitter* eventEmitter = nil;
   }
 
   return [observationRepresentation copy];
+}
+
+- (VNBarcodeSymbology)barcodeSymbologyFromString:(NSString*)barcodeType {
+  if ([barcodeType isEqualToString:@"aztec"]) {
+    return VNBarcodeSymbologyAztec;
+  } else if ([barcodeType isEqualToString:@"code-39"]) {
+    return VNBarcodeSymbologyCode39;
+  } else if ([barcodeType isEqualToString:@"code-93"]) {
+    return VNBarcodeSymbologyCode93;
+  } else if ([barcodeType isEqualToString:@"code-128"]) {
+    return VNBarcodeSymbologyCode128;
+  } else if ([barcodeType isEqualToString:@"data-matrix"]) {
+    return VNBarcodeSymbologyDataMatrix;
+  } else if ([barcodeType isEqualToString:@"ean-8"]) {
+    return VNBarcodeSymbologyEAN8;
+  } else if ([barcodeType isEqualToString:@"ean-13"]) {
+    return VNBarcodeSymbologyEAN13;
+  } else if ([barcodeType isEqualToString:@"itf"]) {
+    return VNBarcodeSymbologyITF14;
+  } else if ([barcodeType isEqualToString:@"pdf-417"]) {
+    return VNBarcodeSymbologyPDF417;
+  } else if ([barcodeType isEqualToString:@"qr"]) {
+    return VNBarcodeSymbologyQR;
+  } else if ([barcodeType isEqualToString:@"upc-e"]) {
+    return VNBarcodeSymbologyUPCE;
+  }
+
+  if (@available(iOS 15.0, *)) {
+    if ([barcodeType isEqualToString:@"gs1-databar"]) {
+      return VNBarcodeSymbologyGS1DataBar;
+    }
+  }
+
+  if (@available(iOS 17.0, *)) {
+    if ([barcodeType isEqualToString:@"msi-plessey"]) {
+      return VNBarcodeSymbologyMSIPlessey;
+    }
+  }
+
+  return nil;
 }
 
 /**

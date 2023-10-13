@@ -7,21 +7,21 @@ import {
   type CameraProps,
 } from "react-native-vision-camera";
 import { Worklets, useSharedValue } from "react-native-worklets-core";
-import { scanCodes } from "src/module";
-import type { Barcode, CodeType, Highlight, Size } from "src/types";
+import { scanCodes, type ScanBarcodesOptions } from "src/module";
+import type { Barcode, Highlight, Size } from "src/types";
 import { computeHighlights } from "src/utils";
 
 export type UseBarcodeScannerOptions = {
   fps?: number;
-  codeTypes?: CodeType[];
   onBarcodeScanned: (barcodes: Barcode[]) => void;
   disableHighlighting?: boolean;
   defaultResizeMode?: CameraProps["resizeMode"];
   scanMode?: "continuous" | "once";
-};
+} & ScanBarcodesOptions;
 
 export const useBarcodeScanner = ({
-  codeTypes,
+  barcodeTypes,
+  regionOfInterest,
   onBarcodeScanned,
   disableHighlighting,
   defaultResizeMode = "cover",
@@ -68,7 +68,7 @@ export const useBarcodeScanner = ({
         const { value: prevBarcodes } = barcodesRef;
         const { value: resizeMode } = resizeModeRef;
         // Call the native barcode scanner
-        const barcodes = scanCodes(frame, codeTypes);
+        const barcodes = scanCodes(frame, { barcodeTypes, regionOfInterest });
         // console.log(JSON.stringify(barcodes, null, 2));
 
         if (barcodes.length > 0) {

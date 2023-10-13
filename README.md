@@ -96,6 +96,7 @@ export const App: FunctionComponent = () => {
 
   const { props: cameraProps, highlights } = useBarcodeScanner({
     fps: 5,
+    barcodeTypes: ["qr", "ean-13"], // optional
     onBarcodeScanned: (barcodes) => {
       "worklet";
       console.log(

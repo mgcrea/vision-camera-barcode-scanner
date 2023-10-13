@@ -11,7 +11,7 @@ export type VisionCameraConstants = {
 export type BoundingBox = iOSBoundingBox;
 export type CornerPoints = Point[];
 export type Highlight = BoundingBox & { key: Key };
-export type CodeType =
+export type BarcodeType =
   | "aztec"
   | "codabar"
   | "code-128"
@@ -31,7 +31,7 @@ export type CodeType =
 
 export type Barcode = {
   value: string | null;
-  type: CodeType;
+  type: BarcodeType;
   boundingBox: BoundingBox;
   cornerPoints: Point[];
   native: iOSBarcode | AndroidBarcode;

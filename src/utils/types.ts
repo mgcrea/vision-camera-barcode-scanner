@@ -1,7 +1,7 @@
-import type { CodeType, iOSSymbology } from "src/types";
+import type { BarcodeType, iOSSymbology } from "src/types";
 import { AndroidBarcodeFormat } from "..";
 
-export const normalizeiOSCodeType = (symbology: iOSSymbology): CodeType => {
+export const normalizeiOSCodeType = (symbology: iOSSymbology): BarcodeType => {
   "worklet";
   switch (symbology) {
     case "VNBarcodeSymbologyAztec":
@@ -47,7 +47,7 @@ export const normalizeiOSCodeType = (symbology: iOSSymbology): CodeType => {
 
 export const normalizeAndroidCodeType = (
   format: AndroidBarcodeFormat,
-): CodeType => {
+): BarcodeType => {
   "worklet";
   switch (format) {
     case AndroidBarcodeFormat.AZTEC:
