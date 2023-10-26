@@ -31,14 +31,14 @@ export default function App() {
 
   const {props: cameraProps, highlights} = useBarcodeScanner({
     fps: 5,
-    // barcodeTypes: ['qr', 'ean-13'],
-    regionOfInterest: {x: 0, y: 0, width: 0.5, height: 1},
+    barcodeTypes: ['ean-13'],
+    // regionOfInterest: {x: 0, y: 0, width: 0.5, height: 1},
     scanMode: 'continuous',
     onBarcodeScanned: barcodes => {
       'worklet';
       console.log(
         `Scanned ${barcodes.length} codes with values=${JSON.stringify(
-          barcodes.map(({value}) => value),
+          barcodes.map(barcode => `${barcode.type}:${barcode.value}`),
         )} !`,
       );
     },

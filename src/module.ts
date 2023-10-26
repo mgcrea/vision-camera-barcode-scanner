@@ -5,7 +5,6 @@ import type {
   Barcode,
   BarcodeType,
   FrameProcessorPlugin,
-  Rect,
   VisionCameraConstants,
   iOSBarcode,
 } from "./types";
@@ -51,7 +50,7 @@ const visionCameraProcessorPlugin = VisionCameraProxy.initFrameProcessorPlugin(
 
 export type ScanBarcodesOptions = {
   barcodeTypes?: BarcodeType[];
-  regionOfInterest?: Rect;
+  regionOfInterest?: [number, number, number, number];
 };
 
 export const scanCodes = (
