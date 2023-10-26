@@ -28,11 +28,11 @@
     "start": "npm run spec -- --watch",
     "build": "tsup src/index.ts --format cjs,esm --sourcemap --dts --clean",
     "lint": "eslint src/",
-    "prettycheck": "prettier --check src/ test/",
+    "prettycheck": "prettier --check src/",
     "typecheck": "tsc --noEmit",
     "spec": "exit 0",
     "test": "npm run lint && npm run prettycheck && npm run typecheck && npm run spec",
-    "prettify": "prettier --write 'android/src/**/*.java' src/ test/",
+    "prettify": "prettier --write 'android/src/**/*.java' src/",
     "clean": "rm -rf android/build example/android/build example/android/app/build example/ios/build",
     "prepublishOnly": "npm run build"
   },
