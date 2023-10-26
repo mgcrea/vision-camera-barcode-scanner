@@ -38,13 +38,15 @@ static RCTEventEmitter* eventEmitter = nil;
   }
 
   // Parse the regions of interest
-  NSDictionary* regionOfInterestArg = arguments[@"regionOfInterest"];
-  CGRect regionOfInterest = CGRectZero;
-  if (regionOfInterestArg) {
-    NSNumber* x = [regionOfInterestArg objectForKey:@"x"];
-    NSNumber* y = [regionOfInterestArg objectForKey:@"y"];
-    NSNumber* width = [regionOfInterestArg objectForKey:@"width"];
-    NSNumber* height = [regionOfInterestArg objectForKey:@"height"];
+  // The rectangle is normalized to the dimensions of the processed image. Its origin is specified relative to the image's lower-left corner.
+  NSArray* regionOfInterestArg = arguments[@"regionOfInterest"];
+  // The default value is { { 0, 0 }, { 1, 1 } }.
+  CGRect regionOfInterest = CGRectMake(0, 0, 1, 1);
+  if (regionOfInterestArg && regionOfInterestArg.count == 4) {
+    NSNumber* x = regionOfInterestArg[0];
+    NSNumber* y = regionOfInterestArg[1];
+    NSNumber* width = regionOfInterestArg[2];
+    NSNumber* height = regionOfInterestArg[3];
     if (x && y && width && height) {
       regionOfInterest = CGRectMake([x floatValue], [y floatValue], [width floatValue], [height floatValue]);
     }

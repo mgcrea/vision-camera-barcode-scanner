@@ -17,24 +17,24 @@ export const computeHighlights = (
     return [];
   }
 
+  /* iOS:
+   * "portrait" -> "landscape-right"
+   * "portrait-upside-down" -> "landscape-left"
+   * "landscape-left" -> "portrait"
+   * "landscape-right" -> "portrait-upside-down"
+   */
+  const adjustedLayout = ["portrait", "portrait-upside-down"].includes(
+    frame.orientation,
+  )
+    ? {
+        width: layout.height,
+        height: layout.width,
+      }
+    : layout;
+
   const highlights = barcodes.map<Highlight>(
     ({ value, cornerPoints }, index) => {
       let translatedCornerPoints = cornerPoints;
-
-      /* iOS:
-       * "portrait" -> "landscape-right"
-       * "portrait-upside-down" -> "landscape-left"
-       * "landscape-left" -> "portrait"
-       * "landscape-right" -> "portrait-upside-down"
-       */
-      const adjustedLayout = ["portrait", "portrait-upside-down"].includes(
-        frame.orientation,
-      )
-        ? {
-            width: layout.height,
-            height: layout.width,
-          }
-        : layout;
 
       translatedCornerPoints = translatedCornerPoints?.map((point) =>
         applyScaleFactor(point, frame, adjustedLayout, resizeMode),
