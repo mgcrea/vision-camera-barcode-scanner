@@ -5,6 +5,7 @@ import {
   useFrameProcessor,
   type Camera,
   type CameraProps,
+  type Frame,
 } from "react-native-vision-camera";
 import { Worklets, useSharedValue } from "react-native-worklets-core";
 import { scanCodes, type ScanBarcodesOptions } from "src/module";
@@ -15,7 +16,7 @@ export type UseBarcodeScannerOptions = {
   barcodeTypes?: BarcodeType[];
   regionOfInterest?: Rect;
   fps?: number;
-  onBarcodeScanned: (barcodes: Barcode[]) => void;
+  onBarcodeScanned: (barcodes: Barcode[], frame: Frame) => void;
   disableHighlighting?: boolean;
   defaultResizeMode?: CameraProps["resizeMode"];
   scanMode?: "continuous" | "once";
@@ -84,7 +85,7 @@ export const useBarcodeScanner = ({
         if (barcodes.length > 0) {
           // If the scanMode is "continuous", we stream all the barcodes responses
           if (scanMode === "continuous") {
-            onBarcodeScanned(barcodes);
+            onBarcodeScanned(barcodes, frame);
             // If the scanMode is "once", we only call the callback if the barcodes have actually changed
           } else if (scanMode === "once") {
             const hasChanged =
@@ -92,7 +93,7 @@ export const useBarcodeScanner = ({
               JSON.stringify(prevBarcodes.map(({ value }) => value)) !==
                 JSON.stringify(barcodes.map(({ value }) => value));
             if (hasChanged) {
-              onBarcodeScanned(barcodes);
+              onBarcodeScanned(barcodes, frame);
             }
           }
           barcodesRef.value = barcodes;
