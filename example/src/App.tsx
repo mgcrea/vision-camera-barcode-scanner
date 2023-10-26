@@ -46,8 +46,7 @@ export default function App() {
 
   const devices = useCameraDevices();
   const device = devices.find(({position}) => position === 'back');
-  device.formats = undefined;
-  console.log(JSON.stringify(device, null, 2));
+
   const format = useCameraFormat(device, [
     {videoResolution: {width: 1920, height: 1080}},
   ]);
