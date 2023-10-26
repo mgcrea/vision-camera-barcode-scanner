@@ -17,7 +17,7 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.mrousavy.camera.frameprocessor.Frame;
 import com.mrousavy.camera.frameprocessor.FrameProcessorPlugin;
-import com.mrousavy.camera.parsers.Orientation;
+import com.mrousavy.camera.types.Orientation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,21 +27,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
 
-  public CodeScannerProcessorPlugin() {
-    BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
-      .setBarcodeFormats(
-        Barcode.FORMAT_CODE_128,
-        Barcode.FORMAT_CODE_39,
-        Barcode.FORMAT_CODE_93,
-        Barcode.FORMAT_EAN_13,
-        Barcode.FORMAT_EAN_8,
-        Barcode.FORMAT_UPC_A,
-        Barcode.FORMAT_UPC_E,
-        Barcode.FORMAT_QR_CODE
-      )
-      .build();
+  CodeScannerProcessorPlugin(@Nullable Map<String, Object> options) {
+    super(options);
+    Log.d(
+      VisionCameraCodeScannerModule.NAME,
+      "CodeScannerProcessorPlugin initialized with options: " + options
+    );
   }
 
+  @Nullable
   @Override
   public Object callback(
     @NotNull Frame frame,
@@ -68,7 +62,20 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
       Orientation.Companion.fromUnionValue(frame.getOrientation()).toDegrees()
     );
 
-    BarcodeScanner scanner = BarcodeScanning.getClient();
+    BarcodeScannerOptions barcodeScannerOptions =
+      new BarcodeScannerOptions.Builder()
+        .setBarcodeFormats(
+          Barcode.FORMAT_CODE_128,
+          Barcode.FORMAT_CODE_39,
+          Barcode.FORMAT_CODE_93,
+          Barcode.FORMAT_EAN_13,
+          Barcode.FORMAT_EAN_8,
+          Barcode.FORMAT_UPC_A,
+          Barcode.FORMAT_UPC_E,
+          Barcode.FORMAT_QR_CODE
+        )
+        .build();
+    BarcodeScanner scanner = BarcodeScanning.getClient(barcodeScannerOptions);
     Task<List<Barcode>> barcodeListTask = scanner.process(inputImage);
 
     try {

@@ -45,7 +45,7 @@ export const onBarcodeDetected = (
   });
 };
 
-const visionCameraProcessorPlugin = VisionCameraProxy.getFrameProcessorPlugin(
+const visionCameraProcessorPlugin = VisionCameraProxy.initFrameProcessorPlugin(
   MODULE_NAME,
 ) as FrameProcessorPlugin | null;
 

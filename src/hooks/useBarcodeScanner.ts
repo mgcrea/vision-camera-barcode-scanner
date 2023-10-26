@@ -68,7 +68,7 @@ export const useBarcodeScanner = ({
         const { value: prevBarcodes } = barcodesRef;
         const { value: resizeMode } = resizeModeRef;
         // Call the native barcode scanner
-        const barcodes = scanCodes(frame, { barcodeTypes, regionOfInterest });
+        const barcodes = scanCodes(frame, {});
         // console.log(JSON.stringify(barcodes, null, 2));
 
         if (barcodes.length > 0) {

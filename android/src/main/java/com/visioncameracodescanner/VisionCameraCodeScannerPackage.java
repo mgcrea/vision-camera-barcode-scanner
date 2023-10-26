@@ -20,7 +20,7 @@ public class VisionCameraCodeScannerPackage implements ReactPackage {
     FrameProcessorPluginRegistry.addFrameProcessorPlugin(
       VisionCameraCodeScannerModule.NAME,
       options -> {
-        plugin = new CodeScannerProcessorPlugin();
+        plugin = new CodeScannerProcessorPlugin(options);
         return plugin;
       }
     );

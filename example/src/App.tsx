@@ -31,8 +31,8 @@ export default function App() {
 
   const {props: cameraProps, highlights} = useBarcodeScanner({
     fps: 5,
-    barcodeTypes: ['qr', 'ean-13'],
-    // regionOfInterest: {x: 0, y: 0, width: 0.5, height: 1},
+    // barcodeTypes: ['qr', 'ean-13'],
+    regionOfInterest: {x: 0, y: 0, width: 0.5, height: 1},
     scanMode: 'continuous',
     onBarcodeScanned: barcodes => {
       'worklet';
