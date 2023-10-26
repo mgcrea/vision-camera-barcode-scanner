@@ -95,10 +95,6 @@ export const useBarcodeScanner = ({
               onBarcodeScanned(barcodes);
             }
           }
-
-          if (prevBarcodes.length !== barcodes.length) {
-            onBarcodeScanned(barcodes);
-          }
           barcodesRef.value = barcodes;
         }
 
