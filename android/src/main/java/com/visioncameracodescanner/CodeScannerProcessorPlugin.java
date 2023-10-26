@@ -77,7 +77,8 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
         regionOfInterestList.get(1).intValue() +
         regionOfInterestList.get(3).intValue()
       );
-      inputImage.setCropRegion(regionOfInterestRect);
+      // @TODO
+      // inputImage.setCropRegion(regionOfInterestRect);
     }
 
     BarcodeScanner scanner = getBarcodeScannerClient(params);
