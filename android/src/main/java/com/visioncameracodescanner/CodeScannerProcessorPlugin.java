@@ -119,6 +119,9 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
             case "code-93":
               barcodeFormats.add(Barcode.FORMAT_CODE_93);
               break;
+            case "data-matrix":
+              barcodeFormats.add(Barcode.FORMAT_DATA_MATRIX);
+              break;
             case "ean-13":
               barcodeFormats.add(Barcode.FORMAT_EAN_13);
               break;
