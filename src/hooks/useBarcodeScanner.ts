@@ -54,8 +54,8 @@ export const useBarcodeScanner = ({
   const barcodesRef = useSharedValue<Barcode[]>([]);
 
   // Barcode highlights related state
-  const highlightsRef = useSharedValue<Highlight[]>([]);
   const [highlights, setHighlights] = useState<Highlight[]>([]);
+  const lastHighlightsCount = useSharedValue<number>(0);
   const setHighlightsJS = Worklets.createRunInJsFn(setHighlights);
 
   // Pixel format must be "yuv" on Android and "native" on iOS
@@ -80,7 +80,7 @@ export const useBarcodeScanner = ({
           options.regionOfInterest = [x, y, width, height];
         }
         const barcodes = scanCodes(frame, options);
-        // console.log(JSON.stringify(barcodes, null, 2));
+        console.log(JSON.stringify(barcodes, null, 2));
 
         if (barcodes.length > 0) {
           // If the scanMode is "continuous", we stream all the barcodes responses
@@ -105,7 +105,6 @@ export const useBarcodeScanner = ({
             isPristineRef.value = false;
             return;
           }
-          const { value: prevHighlights } = highlightsRef;
           const highlights = computeHighlights(
             barcodes,
             frame,
@@ -113,14 +112,15 @@ export const useBarcodeScanner = ({
             resizeMode,
           );
           // Spare a re-render if the highlights are both empty
-          if (prevHighlights.length === 0 && highlights.length === 0) {
+          if (lastHighlightsCount.value === 0 && highlights.length === 0) {
             return;
           }
+          lastHighlightsCount.value = highlights.length;
           setHighlightsJS(highlights);
         }
       });
     },
-    [layoutRef, resizeModeRef, highlightsRef, disableHighlighting],
+    [layoutRef, resizeModeRef, disableHighlighting],
   );
 
   return {
