@@ -375,7 +375,7 @@ PODS:
   - React-jsinspector (0.72.6)
   - React-logger (0.72.6):
     - glog
-  - react-native-worklets-core (0.2.2):
+  - react-native-worklets-core (0.2.4):
     - React
     - React-callinvoker
     - React-Core
@@ -490,12 +490,12 @@ PODS:
     - React-logger (= 0.72.6)
     - React-perflogger (= 0.72.6)
   - SocketRocket (0.6.1)
-  - VisionCamera (3.6.4):
+  - VisionCamera (3.6.15):
     - React
     - React-callinvoker
     - React-Core
     - react-native-worklets-core
-  - VisionCameraCodeScanner (0.5.1):
+  - VisionCameraCodeScanner (0.6.4):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
     - VisionCamera
@@ -709,7 +709,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 3bf18ff7cb03cd8dfdce08fbbc0d15058c1d71ae
   React-jsinspector: 194e32c6aab382d88713ad3dd0025c5f5c4ee072
   React-logger: cebf22b6cf43434e471dc561e5911b40ac01d289
-  react-native-worklets-core: 81629f0e2629a63336221a8e6a60aaa5cdbd1bf9
+  react-native-worklets-core: b4094f51cb2bc649e297206425cb8956f4945e3e
   React-NativeModulesApple: 02e35e9a51e10c6422f04f5e4076a7c02243fff2
   React-perflogger: e3596db7e753f51766bceadc061936ef1472edc3
   React-RCTActionSheet: 17ab132c748b4471012abbcdcf5befe860660485
@@ -728,11 +728,11 @@ SPEC CHECKSUMS:
   React-utils: fa59c9a3375fb6f4aeb66714fd3f7f76b43a9f16
   ReactCommon: dd03c17275c200496f346af93a7b94c53f3093a4
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  VisionCamera: db57ca079c4f933f1ddd07f2f8fb2d171a826b85
-  VisionCameraCodeScanner: e1bf04dc47b25ec33465ae75c2a6c30003bfb5fc
+  VisionCamera: 2455110d07faac2da182a26c2bfeb0b9a0e34875
+  VisionCameraCodeScanner: a9dcd3df62ca1bbb4faeab3701e83a3d88e420cf
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 0e93da65f12f10da7a1188138ee7d40632bcc118
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3
