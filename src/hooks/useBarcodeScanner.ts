@@ -80,7 +80,6 @@ export const useBarcodeScanner = ({
           options.regionOfInterest = [x, y, width, height];
         }
         const barcodes = scanCodes(frame, options);
-        console.log(JSON.stringify(barcodes, null, 2));
 
         if (barcodes.length > 0) {
           // If the scanMode is "continuous", we stream all the barcodes responses
