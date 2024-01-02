@@ -4,7 +4,7 @@ import {
   useBarcodeScanner,
 } from '@mgcrea/vision-camera-code-scanner';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import {
   Camera,
   useCameraDevices,
@@ -24,7 +24,14 @@ export default function App() {
   useEffect(() => {
     const runEffect = async () => {
       const status = await requestCameraPermission();
+      console.log({status});
       setHasPermission(status === 'granted');
+      if (['denied', 'never_ask_again'].includes(status)) {
+        Alert.alert(
+          'Permission denied',
+          'You need to allow camera access in order to use this app.',
+        );
+      }
     };
     runEffect();
   }, []);
@@ -56,8 +63,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Camera
-        enableFpsGraph
-        orientation="landscape-right"
+        // enableFpsGraph
+        // orientation="landscape-right"
         style={StyleSheet.absoluteFill}
         device={device}
         format={format}
