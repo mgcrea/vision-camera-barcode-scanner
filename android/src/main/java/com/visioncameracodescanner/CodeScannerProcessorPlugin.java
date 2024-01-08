@@ -61,9 +61,12 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
 
     List<Object> barcodes = new ArrayList<>();
 
+    Orientation orientation = frame.getOrientation();
     InputImage inputImage = InputImage.fromMediaImage(
       mediaImage,
-      Orientation.Companion.fromUnionValue(frame.getOrientation()).toDegrees()
+      Orientation.Companion
+        .fromUnionValue(orientation.getUnionValue())
+        .toDegrees()
     );
     List<Number> regionOfInterestList = (ArrayList<Number>) params.get(
       "regionOfInterest"
