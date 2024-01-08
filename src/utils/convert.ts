@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import type { Frame } from "react-native-vision-camera";
+import type { Code, Frame } from "react-native-vision-camera";
 import type {
   AndroidBarcode,
   Barcode,
@@ -86,4 +86,24 @@ export const normalizeNativeBarcode = (
   } else {
     throw new Error(`Unsupported platform: ${Platform.OS}`);
   }
+};
+
+export const convertVisionCameraCodeToBarcode = (
+  code: Code,
+): Omit<Barcode, "native"> => {
+  return {
+    value: code.value ?? null,
+    type: code.type,
+    boundingBox: {
+      origin: {
+        x: code.frame?.x ?? 0,
+        y: code.frame?.y ?? 0,
+      },
+      size: {
+        width: code.frame?.width ?? 0,
+        height: code.frame?.height ?? 0,
+      },
+    },
+    cornerPoints: code.corners ?? [],
+  };
 };

@@ -29,7 +29,7 @@ export const useBarcodeScanner = ({
   disableHighlighting,
   defaultResizeMode = "cover",
   scanMode = "continuous",
-  fps = 2,
+  fps = 5,
 }: UseBarcodeScannerOptions) => {
   const ref = useRef<Camera>(null);
 

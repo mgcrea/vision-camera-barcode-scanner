@@ -4,8 +4,8 @@ import { computeBoundingBoxFromCornerPoints } from "./convert";
 import { applyScaleFactor, applyTransformation } from "./geometry";
 
 export const computeHighlights = (
-  barcodes: Barcode[],
-  frame: Frame,
+  barcodes: Pick<Barcode, "value" | "cornerPoints">[],
+  frame: Pick<Frame, "width" | "height" | "orientation">,
   layout: Size,
   resizeMode: CameraProps["resizeMode"] = "cover",
 ): Highlight[] => {

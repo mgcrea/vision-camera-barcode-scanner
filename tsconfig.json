@@ -7,5 +7,5 @@
       "test/*": ["test/*"]
     }
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", ".idea/ModalBarcodeScannerProvider.tsx"]
 }
