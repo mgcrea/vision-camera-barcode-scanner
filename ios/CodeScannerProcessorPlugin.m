@@ -234,7 +234,6 @@ static RCTEventEmitter* eventEmitter = nil;
       addFrameProcessorPlugin:[VisionCameraCodeScanner name]
               withInitializer:^FrameProcessorPlugin*(VisionCameraProxyHolder* _Nonnull proxy, NSDictionary* _Nullable options) {
                 return [[CodeScannerProcessorPlugin alloc] initWithProxy:proxy withOptions:options];
-                    initWithOptions:options];
               }];
 }
 
