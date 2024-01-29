@@ -6,8 +6,9 @@ static RCTEventEmitter* eventEmitter = nil;
 
 @implementation CodeScannerProcessorPlugin
 
-- (instancetype)initWithOptions:(NSDictionary*)options {
-  self = [super init];
+- (instancetype) initWithProxy:(VisionCameraProxyHolder*)proxy
+                   withOptions:(NSDictionary* _Nullable)options {
+  self = [super initWithProxy:proxy withOptions:options];
   return self;
 }
 
@@ -231,9 +232,8 @@ static RCTEventEmitter* eventEmitter = nil;
 + (void)load {
   [FrameProcessorPluginRegistry
       addFrameProcessorPlugin:[VisionCameraCodeScanner name]
-              withInitializer:^FrameProcessorPlugin*(NSDictionary* options) {
-                return [[CodeScannerProcessorPlugin alloc]
-                    initWithOptions:options];
+              withInitializer:^FrameProcessorPlugin*(VisionCameraProxyHolder* _Nonnull proxy, NSDictionary* _Nullable options) {
+                return [[CodeScannerProcessorPlugin alloc] initWithProxy:proxy withOptions:options];
               }];
 }
 

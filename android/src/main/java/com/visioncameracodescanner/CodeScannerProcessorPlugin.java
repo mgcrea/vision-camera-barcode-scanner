@@ -15,6 +15,7 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.mrousavy.camera.frameprocessor.Frame;
 import com.mrousavy.camera.frameprocessor.FrameProcessorPlugin;
+import com.mrousavy.camera.frameprocessor.VisionCameraProxy;
 import com.mrousavy.camera.types.Orientation;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +32,7 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
   private BarcodeScanner barcodeScanner = null;
   private int barcodeScannerFormatsBitmap = -1;
 
-  CodeScannerProcessorPlugin(@Nullable Map<String, Object> options) {
-    super(options);
+  CodeScannerProcessorPlugin(@NotNull VisionCameraProxy proxy, @Nullable Map<String, Object> options) {
     Log.d(
       VisionCameraCodeScannerModule.NAME,
       "CodeScannerProcessorPlugin initialized with options: " + options
