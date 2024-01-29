@@ -14,15 +14,10 @@ import java.util.Map;
 
 public class VisionCameraCodeScannerPackage implements ReactPackage {
 
-  private CodeScannerProcessorPlugin plugin;
-
-  public VisionCameraCodeScannerPackage() {
+  static {
     FrameProcessorPluginRegistry.addFrameProcessorPlugin(
       VisionCameraCodeScannerModule.NAME,
-      (proxy, options) -> {
-        plugin = new CodeScannerProcessorPlugin(proxy, options);
-        return plugin;
-      }
+      CodeScannerProcessorPlugin::new
     );
   }
 
