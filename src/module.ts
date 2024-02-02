@@ -69,7 +69,7 @@ export const scanCodes = (
     console.warn("Native frame processor failed to return a proper array!");
     return [];
   }
-  return nativeCodes.map((nativeBarcode) =>
-    normalizeNativeBarcode(nativeBarcode, frame),
-  );
+  return nativeCodes
+    .slice() // Prevent "Frame Processor Error: Exception in HostObject::get for prop 'width': java.lang.RuntimeException: Frame is already closed! Are you trying to access the Image data outside of a Frame Processor's lifetime?" with fast refresh
+    .map((nativeBarcode) => normalizeNativeBarcode(nativeBarcode, frame));
 };
