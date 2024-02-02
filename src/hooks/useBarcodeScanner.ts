@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Platform, type ViewProps } from "react-native";
 import {
   runAtTargetFps,
   useFrameProcessor,
-  type Camera,
   type CameraProps,
   type Frame,
 } from "react-native-vision-camera";
@@ -11,6 +10,9 @@ import { Worklets, useSharedValue } from "react-native-worklets-core";
 import { scanCodes, type ScanBarcodesOptions } from "src/module";
 import type { Barcode, BarcodeType, Highlight, Rect, Size } from "src/types";
 import { computeHighlights } from "src/utils";
+import { useLatestSharedValue } from "./useLatestSharedValue";
+
+type ResizeMode = NonNullable<CameraProps["resizeMode"]>;
 
 export type UseBarcodeScannerOptions = {
   barcodeTypes?: BarcodeType[];
@@ -18,7 +20,7 @@ export type UseBarcodeScannerOptions = {
   fps?: number;
   onBarcodeScanned: (barcodes: Barcode[], frame: Frame) => void;
   disableHighlighting?: boolean;
-  defaultResizeMode?: CameraProps["resizeMode"];
+  resizeMode?: ResizeMode;
   scanMode?: "continuous" | "once";
 };
 
@@ -27,12 +29,10 @@ export const useBarcodeScanner = ({
   regionOfInterest,
   onBarcodeScanned,
   disableHighlighting,
-  defaultResizeMode = "cover",
+  resizeMode = "cover",
   scanMode = "continuous",
   fps = 5,
 }: UseBarcodeScannerOptions) => {
-  const ref = useRef<Camera>(null);
-
   // Layout of the <Camera /> component
   const layoutRef = useSharedValue<Size>({ width: 0, height: 0 });
   const onLayout: ViewProps["onLayout"] = (event) => {
@@ -40,14 +40,7 @@ export const useBarcodeScanner = ({
     layoutRef.value = { width, height };
   };
 
-  // Track resizeMode changes and pass it to the worklet
-  const resizeModeRef =
-    useSharedValue<CameraProps["resizeMode"]>(defaultResizeMode);
-  useEffect(() => {
-    resizeModeRef.value = ref.current?.props.resizeMode || defaultResizeMode;
-  }, [resizeModeRef, ref.current?.props.resizeMode, defaultResizeMode]);
-
-  //
+  const resizeModeRef = useLatestSharedValue<ResizeMode>(resizeMode);
   const isPristineRef = useSharedValue<boolean>(true);
 
   // Barcode highlights related state
@@ -127,10 +120,7 @@ export const useBarcodeScanner = ({
       pixelFormat,
       frameProcessor,
       onLayout,
-      ref,
-      resizeMode: defaultResizeMode,
     },
     highlights,
-    ref,
   };
 };

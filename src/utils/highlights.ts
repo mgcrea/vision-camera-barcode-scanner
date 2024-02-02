@@ -23,6 +23,7 @@ export const computeHighlights = (
    * "landscape-left" -> "portrait"
    * "landscape-right" -> "portrait-upside-down"
    */
+  // @NOTE destructure the object to make sure we don't hold a reference to the original layout
   const adjustedLayout = ["portrait", "portrait-upside-down"].includes(
     frame.orientation,
   )
@@ -30,7 +31,10 @@ export const computeHighlights = (
         width: layout.height,
         height: layout.width,
       }
-    : layout;
+    : {
+        width: layout.width,
+        height: layout.height,
+      };
 
   const highlights = barcodes.map<Highlight>(
     ({ value, cornerPoints }, index) => {
