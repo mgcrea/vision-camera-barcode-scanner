@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Platform, type ViewProps } from "react-native";
 import {
+  runAsync,
   runAtTargetFps,
   useFrameProcessor,
   type Camera,
@@ -67,56 +68,59 @@ export const useBarcodeScanner = ({
       "worklet";
       runAtTargetFps(fps, () => {
         "worklet";
-        const { value: layout } = layoutRef;
-        const { value: prevBarcodes } = barcodesRef;
-        const { value: resizeMode } = resizeModeRef;
-        // Call the native barcode scanner
-        const options: ScanBarcodesOptions = {};
-        if (barcodeTypes !== undefined) {
-          options.barcodeTypes = barcodeTypes;
-        }
-        if (regionOfInterest !== undefined) {
-          const { x, y, width, height } = regionOfInterest;
-          options.regionOfInterest = [x, y, width, height];
-        }
-        const barcodes = scanCodes(frame, options);
+        runAsync(frame, () => {
+          "worklet";
+          const { value: layout } = layoutRef;
+          const { value: prevBarcodes } = barcodesRef;
+          const { value: resizeMode } = resizeModeRef;
+          // Call the native barcode scanner
+          const options: ScanBarcodesOptions = {};
+          if (barcodeTypes !== undefined) {
+            options.barcodeTypes = barcodeTypes;
+          }
+          if (regionOfInterest !== undefined) {
+            const { x, y, width, height } = regionOfInterest;
+            options.regionOfInterest = [x, y, width, height];
+          }
+          const barcodes = scanCodes(frame, options);
 
-        if (barcodes.length > 0) {
-          // If the scanMode is "continuous", we stream all the barcodes responses
-          if (scanMode === "continuous") {
-            onBarcodeScanned(barcodes, frame);
-            // If the scanMode is "once", we only call the callback if the barcodes have actually changed
-          } else if (scanMode === "once") {
-            const hasChanged =
-              prevBarcodes.length !== barcodes.length ||
-              JSON.stringify(prevBarcodes.map(({ value }) => value)) !==
-                JSON.stringify(barcodes.map(({ value }) => value));
-            if (hasChanged) {
+          if (barcodes.length > 0) {
+            // If the scanMode is "continuous", we stream all the barcodes responses
+            if (scanMode === "continuous") {
               onBarcodeScanned(barcodes, frame);
+              // If the scanMode is "once", we only call the callback if the barcodes have actually changed
+            } else if (scanMode === "once") {
+              const hasChanged =
+                prevBarcodes.length !== barcodes.length ||
+                JSON.stringify(prevBarcodes.map(({ value }) => value)) !==
+                  JSON.stringify(barcodes.map(({ value }) => value));
+              if (hasChanged) {
+                onBarcodeScanned(barcodes, frame);
+              }
             }
+            barcodesRef.value = barcodes;
           }
-          barcodesRef.value = barcodes;
-        }
 
-        if (disableHighlighting !== true && resizeMode !== undefined) {
-          // We must ignore the first frame because as it has width/height inverted (maybe the right value though?)
-          if (isPristineRef.value) {
-            isPristineRef.value = false;
-            return;
+          if (disableHighlighting !== true && resizeMode !== undefined) {
+            // We must ignore the first frame because as it has width/height inverted (maybe the right value though?)
+            if (isPristineRef.value) {
+              isPristineRef.value = false;
+              return;
+            }
+            const highlights = computeHighlights(
+              barcodes,
+              frame,
+              layout,
+              resizeMode,
+            );
+            // Spare a re-render if the highlights are both empty
+            if (lastHighlightsCount.value === 0 && highlights.length === 0) {
+              return;
+            }
+            lastHighlightsCount.value = highlights.length;
+            setHighlightsJS(highlights);
           }
-          const highlights = computeHighlights(
-            barcodes,
-            frame,
-            layout,
-            resizeMode,
-          );
-          // Spare a re-render if the highlights are both empty
-          if (lastHighlightsCount.value === 0 && highlights.length === 0) {
-            return;
-          }
-          lastHighlightsCount.value = highlights.length;
-          setHighlightsJS(highlights);
-        }
+        });
       });
     },
     [layoutRef, resizeModeRef, disableHighlighting],
