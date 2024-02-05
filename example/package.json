@@ -7,7 +7,8 @@
     "android:clean": "cd android; ./gradlew clean; rm -rf .gradle app/build build; cd ..",
     "android:devtools": "adb shell input keyevent 82",
     "android:install": "adb install android/app/build/outputs/apk/debug/*.apk",
-    "android:log": "react-native log-android ",
+    "android:log": "react-native log-android",
+    "android:logcat": "adb logcat '*:S *:E ReactNative:V ReactNativeJS:V VisionCameraProxy:V VisionCameraCodeScanner:V'",
     "android:reverse": "adb reverse tcp:8081 tcp:8081",
     "modules:clean": "rm -rf node_modules yarn.lock; yarn install",
     "patch": "patch-package react-native-vision-camera --exclude='/.cxx|build/'",
@@ -21,8 +22,8 @@
     "@mgcrea/vision-camera-code-scanner": "link:../",
     "react": "18.2.0",
     "react-native": "0.73.1",
-    "react-native-vision-camera": "^3.8.2",
-    "react-native-worklets-core": "0.2.4"
+    "react-native-vision-camera": "3.9.0-beta.0",
+    "react-native-worklets-core": "0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

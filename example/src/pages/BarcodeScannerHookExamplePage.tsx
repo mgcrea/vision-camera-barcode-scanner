@@ -3,6 +3,7 @@ import {
   // onBarcodeDetected,
   useBarcodeScanner,
   useCameraPermission,
+  Templates,
 } from '@mgcrea/vision-camera-code-scanner';
 import React, {type FunctionComponent, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
@@ -13,19 +14,36 @@ import {
 } from 'react-native-vision-camera';
 // import {CameraOverlay} from './../components';
 
+const TEST_CRASH = false;
+
 export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
   // Ask for camera permission
   const [permissionStatus, requestPermission] = useCameraPermission();
 
   const [isActive, setIsActive] = useState(true);
+  const [isMounted, setIsMounted] = useState(true);
   useEffect(() => {
-    const runEffect = async () => {
+    const runEffect = () => {
       setTimeout(() => {
         setIsActive(true);
       }, 1000);
     };
     runEffect();
   }, []);
+
+  TEST_CRASH &&
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setIsMounted(prevIsMounted => {
+          console.warn('\n/!\\ isMounted !!!', prevIsMounted);
+          return !prevIsMounted;
+        });
+      }, 3000);
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
 
   const {props: cameraProps, highlights} = useBarcodeScanner({
     fps: 5,
@@ -45,9 +63,7 @@ export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
 
   const devices = useCameraDevices();
   const device = devices.find(({position}) => position === 'back');
-  const format = useCameraFormat(device, [
-    {videoResolution: {width: 1280, height: 720}},
-  ]);
+  const format = useCameraFormat(device, Templates.FrameProcessingBarcodeXGA);
   if (!device || !format) {
     return null;
   }
@@ -67,19 +83,39 @@ export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
-      ) : (
-        <Camera
-          // enableFpsGraph
-          // orientation="landscape-right"
-          style={StyleSheet.absoluteFill}
-          device={device}
-          {...cameraProps}
-          resizeMode="cover"
-          isActive={isActive}
-        />
-      )}
+      ) : isMounted ? (
+        <>
+          <Camera
+            // enableFpsGraph
+            // orientation="landscape-right"
+            style={StyleSheet.absoluteFill}
+            device={device}
+            {...cameraProps}
+            resizeMode="cover"
+            format={format}
+            isActive={isActive}
+            // photo
+          />
+          <CameraHighlights highlights={highlights} color="peachpuff" />
+        </>
+      ) : null}
       {/* <CameraOverlay /> */}
-      <CameraHighlights highlights={highlights} color="peachpuff" />
+      <View style={styles.actions}>
+        <Button
+          onPress={() => {
+            setIsActive(prevIsActive => !prevIsActive);
+          }}
+          title={isActive ? 'Pause' : 'Resume'}
+          color="#007aff"
+        />
+        <Button
+          onPress={() => {
+            setIsMounted(prevIsMounted => !prevIsMounted);
+          }}
+          title={isMounted ? 'Unmount' : 'Mount'}
+          color="#007aff"
+        />
+      </View>
     </View>
   );
 };
@@ -109,5 +145,14 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: 'bold',
+  },
+  actions: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 24,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

@@ -61,12 +61,20 @@ export const scanCodes = (
   if (visionCameraProcessorPlugin == null) {
     throw new Error(`Failed to load Frame Processor Plugin "${MODULE_NAME}"!`);
   }
+  // @ts-expect-error - incrementRefCount() is not exposed in the typings
+  frame.incrementRefCount && frame.incrementRefCount();
   const nativeCodes = visionCameraProcessorPlugin.call(
     frame,
     options,
   ) as unknown as (AndroidBarcode | iOSBarcode)[];
+  // @ts-expect-error - decrementRefCount() is not exposed in the typings
+  frame.decrementRefCount && frame.decrementRefCount();
+
   if (!Array.isArray(nativeCodes)) {
-    console.warn("Native frame processor failed to return a proper array!");
+    console.log(
+      `Native frame processor ${MODULE_NAME} failed to return a proper array!`,
+      nativeCodes,
+    );
     return [];
   }
   return nativeCodes
