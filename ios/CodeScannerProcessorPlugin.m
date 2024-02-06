@@ -28,10 +28,9 @@ static RCTEventEmitter* eventEmitter = nil;
   RCTLogInfo(@"Processing frame with width: %lu, height: %lu and arguments: %@", width, height, arguments);
 
   // Parse the barcode types to be detected
-  NSDictionary* barcodeTypes = arguments[@"barcodeTypes"];
+  NSArray* barcodeTypes = arguments[@"barcodeTypes"];
   NSMutableArray* symbologies = [NSMutableArray new];
-  for (NSString* key in barcodeTypes) {
-    NSString* barcodeType = [barcodeTypes objectForKey:key];
+  for (NSString* barcodeType in barcodeTypes) {
     VNBarcodeSymbology symbology = [self barcodeSymbologyFromString:barcodeType];
     if (symbology != nil) {
       [symbologies addObject:symbology];
