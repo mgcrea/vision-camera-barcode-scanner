@@ -106,9 +106,12 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
     Set<Integer> barcodeFormats = new HashSet<>();
 
     if (params != null) {
-      List<String> barcodeTypes = (ArrayList<String>) params.get("barcodeTypes");
+      HashMap<String, String> barcodeTypes = (HashMap<
+          String,
+          String
+        >) params.get("barcodeTypes");
       if (barcodeTypes != null && barcodeTypes.size() > 0) {
-        for (String type : barcodeTypes) {
+        for (String type : barcodeTypes.values()) {
           switch (type) {
             case "code-128":
               barcodeFormats.add(Barcode.FORMAT_CODE_128);
