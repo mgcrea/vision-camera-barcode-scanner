@@ -41,9 +41,8 @@ public class BarcodeConverter {
     return array;
   }
 
-  public static List<Object> convertAddressList(
-    @NonNull List<Barcode.Address> addresses
-  ) {
+  public static List<Object>
+  convertAddressList(@NonNull List<Barcode.Address> addresses) {
     List<Object> array = new ArrayList<>();
 
     for (Barcode.Address address : addresses) {
@@ -53,9 +52,8 @@ public class BarcodeConverter {
     return array;
   }
 
-  public static List<Object> convertPhoneList(
-    @NonNull List<Barcode.Phone> phones
-  ) {
+  public static List<Object>
+  convertPhoneList(@NonNull List<Barcode.Phone> phones) {
     List<Object> array = new ArrayList<>();
 
     for (Barcode.Phone phone : phones) {
@@ -65,9 +63,8 @@ public class BarcodeConverter {
     return array;
   }
 
-  public static List<Object> convertEmailList(
-    @NonNull List<Barcode.Email> emails
-  ) {
+  public static List<Object>
+  convertEmailList(@NonNull List<Barcode.Email> emails) {
     List<Object> array = new ArrayList<>();
 
     for (Barcode.Email email : emails) {
@@ -86,9 +83,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.Address address
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.Address address) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("addressLines", convertToArray(address.getAddressLines()));
@@ -108,9 +104,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.ContactInfo contactInfo
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.ContactInfo contactInfo) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("addresses", convertAddressList(contactInfo.getAddresses()));
@@ -124,9 +119,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.PersonName name
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.PersonName name) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("first", name.getFirst());
@@ -140,9 +134,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.UrlBookmark url
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.UrlBookmark url) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("title", url.getTitle());
@@ -190,9 +183,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.GeoPoint geoPoint
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.GeoPoint geoPoint) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("lat", geoPoint.getLat());
@@ -201,9 +193,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.CalendarDateTime calendarDateTime
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.CalendarDateTime calendarDateTime) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("day", calendarDateTime.getDay());
@@ -218,9 +209,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.CalendarEvent calendarEvent
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.CalendarEvent calendarEvent) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("description", calendarEvent.getDescription());
@@ -234,9 +224,8 @@ public class BarcodeConverter {
     return map;
   }
 
-  public static Map<String, Object> convertToMap(
-    @NonNull Barcode.DriverLicense driverLicense
-  ) {
+  public static Map<String, Object>
+  convertToMap(@NonNull Barcode.DriverLicense driverLicense) {
     Map<String, Object> map = new HashMap<>();
 
     map.put("addressCity", driverLicense.getAddressCity());
@@ -263,38 +252,38 @@ public class BarcodeConverter {
     int type = barcode.getValueType();
 
     switch (type) {
-      case Barcode.TYPE_UNKNOWN:
-      case Barcode.TYPE_ISBN:
-      case Barcode.TYPE_TEXT:
-        map.put("data", barcode.getRawValue());
-        break;
-      case Barcode.TYPE_CONTACT_INFO:
-        map.put("data", convertToMap(barcode.getContactInfo()));
-        break;
-      case Barcode.TYPE_EMAIL:
-        map.put("data", convertToMap(barcode.getEmail()));
-        break;
-      case Barcode.TYPE_PHONE:
-        map.put("data", convertToMap(barcode.getPhone()));
-        break;
-      case Barcode.TYPE_SMS:
-        map.put("data", convertToMap(barcode.getSms()));
-        break;
-      case Barcode.TYPE_URL:
-        map.put("data", convertToMap(barcode.getUrl()));
-        break;
-      case Barcode.TYPE_WIFI:
-        map.put("data", convertToMap(barcode.getWifi()));
-        break;
-      case Barcode.TYPE_GEO:
-        map.put("data", convertToMap(barcode.getGeoPoint()));
-        break;
-      case Barcode.TYPE_CALENDAR_EVENT:
-        map.put("data", convertToMap(barcode.getCalendarEvent()));
-        break;
-      case Barcode.TYPE_DRIVER_LICENSE:
-        map.put("data", convertToMap(barcode.getDriverLicense()));
-        break;
+    case Barcode.TYPE_UNKNOWN:
+    case Barcode.TYPE_ISBN:
+    case Barcode.TYPE_TEXT:
+      map.put("data", barcode.getRawValue());
+      break;
+    case Barcode.TYPE_CONTACT_INFO:
+      map.put("data", convertToMap(barcode.getContactInfo()));
+      break;
+    case Barcode.TYPE_EMAIL:
+      map.put("data", convertToMap(barcode.getEmail()));
+      break;
+    case Barcode.TYPE_PHONE:
+      map.put("data", convertToMap(barcode.getPhone()));
+      break;
+    case Barcode.TYPE_SMS:
+      map.put("data", convertToMap(barcode.getSms()));
+      break;
+    case Barcode.TYPE_URL:
+      map.put("data", convertToMap(barcode.getUrl()));
+      break;
+    case Barcode.TYPE_WIFI:
+      map.put("data", convertToMap(barcode.getWifi()));
+      break;
+    case Barcode.TYPE_GEO:
+      map.put("data", convertToMap(barcode.getGeoPoint()));
+      break;
+    case Barcode.TYPE_CALENDAR_EVENT:
+      map.put("data", convertToMap(barcode.getCalendarEvent()));
+      break;
+    case Barcode.TYPE_DRIVER_LICENSE:
+      map.put("data", convertToMap(barcode.getDriverLicense()));
+      break;
     }
 
     return map;

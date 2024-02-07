@@ -33,30 +33,24 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
   private BarcodeScanner barcodeScanner = null;
   private int barcodeScannerFormatsBitmap = -1;
 
-  CodeScannerProcessorPlugin(@NotNull VisionCameraProxy proxy, @Nullable Map<String, Object> options) {
-    Log.d(
-      VisionCameraCodeScannerModule.NAME,
-      "CodeScannerProcessorPlugin initialized with options: " + options
-    );
+  CodeScannerProcessorPlugin(@NotNull VisionCameraProxy proxy,
+                             @Nullable Map<String, Object> options) {
+    Log.d(VisionCameraCodeScannerModule.NAME,
+          "CodeScannerProcessorPlugin initialized with options: " + options);
   }
 
   @Nullable
   @Override
-  public Object callback(
-    @NotNull Frame frame,
-    @Nullable Map<String, Object> params
-  ) {
+  public Object callback(@NotNull Frame frame,
+                         @Nullable Map<String, Object> params) {
     Image mediaImage = frame.getImage();
 
     // Check if the image is in a supported format
     int format = mediaImage.getFormat();
     if (format != ImageFormat.YUV_420_888) {
-      Log.e(
-        VisionCameraCodeScannerModule.NAME,
-        "Unsupported image format: " +
-        format +
-        ". Only YUV_420_888 is supported for now."
-      );
+      Log.e(VisionCameraCodeScannerModule.NAME,
+            "Unsupported image format: " + format +
+                ". Only YUV_420_888 is supported for now.");
       return null;
     }
 
@@ -64,33 +58,26 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
 
     Orientation orientation = Orientation.PORTRAIT;
     try {
-        orientation = frame.getOrientation();
+      orientation = frame.getOrientation();
     } catch (FrameInvalidError e) {
-      Log.e(
-        VisionCameraCodeScannerModule.NAME,
-        "Received an invalid frame."
-      );
+      Log.e(VisionCameraCodeScannerModule.NAME, "Received an invalid frame.");
       return null;
     }
 
     InputImage inputImage = InputImage.fromMediaImage(
-      mediaImage,
-      Orientation.Companion
-        .fromUnionValue(orientation.getUnionValue())
-        .toDegrees()
-    );
-    List<Number> regionOfInterestList = (ArrayList<Number>) params.get(
-      "regionOfInterest"
-    );
+        mediaImage,
+        Orientation.Companion.fromUnionValue(orientation.getUnionValue())
+            .toDegrees());
+    List<Number> regionOfInterestList =
+        (ArrayList<Number>)params.get("regionOfInterest");
     if (regionOfInterestList != null) {
-      Rect regionOfInterestRect = new Rect(
-        regionOfInterestList.get(0).intValue(),
-        regionOfInterestList.get(1).intValue(),
-        regionOfInterestList.get(0).intValue() +
-        regionOfInterestList.get(2).intValue(),
-        regionOfInterestList.get(1).intValue() +
-        regionOfInterestList.get(3).intValue()
-      );
+      Rect regionOfInterestRect =
+          new Rect(regionOfInterestList.get(0).intValue(),
+                   regionOfInterestList.get(1).intValue(),
+                   regionOfInterestList.get(0).intValue() +
+                       regionOfInterestList.get(2).intValue(),
+                   regionOfInterestList.get(1).intValue() +
+                       regionOfInterestList.get(3).intValue());
       // @TODO
       // inputImage.setCropRegion(regionOfInterestRect);
     }
@@ -111,51 +98,46 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
     return barcodes;
   }
 
-  private BarcodeScanner getBarcodeScannerClient(
-    @Nullable Map<String, Object> params
-  ) {
+  private BarcodeScanner
+  getBarcodeScannerClient(@Nullable Map<String, Object> params) {
     Set<Integer> barcodeFormats = new HashSet<>();
 
     if (params != null) {
-      HashMap<String, String> barcodeTypes = (HashMap<
-          String,
-          String
-        >) params.get("barcodeTypes");
+      HashMap<String, String> barcodeTypes =
+          (HashMap<String, String>)params.get("barcodeTypes");
       if (barcodeTypes != null && barcodeTypes.size() > 0) {
         for (String type : barcodeTypes.values()) {
           switch (type) {
-            case "code-128":
-              barcodeFormats.add(Barcode.FORMAT_CODE_128);
-              break;
-            case "code-39":
-              barcodeFormats.add(Barcode.FORMAT_CODE_39);
-              break;
-            case "code-93":
-              barcodeFormats.add(Barcode.FORMAT_CODE_93);
-              break;
-            case "data-matrix":
-              barcodeFormats.add(Barcode.FORMAT_DATA_MATRIX);
-              break;
-            case "ean-13":
-              barcodeFormats.add(Barcode.FORMAT_EAN_13);
-              break;
-            case "ean-8":
-              barcodeFormats.add(Barcode.FORMAT_EAN_8);
-              break;
-            case "upc-a":
-              barcodeFormats.add(Barcode.FORMAT_UPC_A);
-              break;
-            case "upc-e":
-              barcodeFormats.add(Barcode.FORMAT_UPC_E);
-              break;
-            case "qr":
-              barcodeFormats.add(Barcode.FORMAT_QR_CODE);
-              break;
-            default:
-              Log.e(
-                VisionCameraCodeScannerModule.NAME,
-                "Unsupported barcode type: " + type
-              );
+          case "code-128":
+            barcodeFormats.add(Barcode.FORMAT_CODE_128);
+            break;
+          case "code-39":
+            barcodeFormats.add(Barcode.FORMAT_CODE_39);
+            break;
+          case "code-93":
+            barcodeFormats.add(Barcode.FORMAT_CODE_93);
+            break;
+          case "data-matrix":
+            barcodeFormats.add(Barcode.FORMAT_DATA_MATRIX);
+            break;
+          case "ean-13":
+            barcodeFormats.add(Barcode.FORMAT_EAN_13);
+            break;
+          case "ean-8":
+            barcodeFormats.add(Barcode.FORMAT_EAN_8);
+            break;
+          case "upc-a":
+            barcodeFormats.add(Barcode.FORMAT_UPC_A);
+            break;
+          case "upc-e":
+            barcodeFormats.add(Barcode.FORMAT_UPC_E);
+            break;
+          case "qr":
+            barcodeFormats.add(Barcode.FORMAT_QR_CODE);
+            break;
+          default:
+            Log.e(VisionCameraCodeScannerModule.NAME,
+                  "Unsupported barcode type: " + type);
           }
         }
       }
@@ -165,26 +147,22 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
       barcodeFormats.add(Barcode.FORMAT_ALL_FORMATS);
     }
 
-    int[] barcodeFormatsArray = barcodeFormats
-      .stream()
-      .mapToInt(i -> i)
-      .toArray();
+    int[] barcodeFormatsArray =
+        barcodeFormats.stream().mapToInt(i -> i).toArray();
 
     int formatsBitmap = barcodeFormatsToBitmap(barcodeFormatsArray);
-    if (
-      barcodeScanner != null && barcodeScannerFormatsBitmap == formatsBitmap
-    ) {
+    if (barcodeScanner != null &&
+        barcodeScannerFormatsBitmap == formatsBitmap) {
       return barcodeScanner;
     }
     barcodeScannerFormatsBitmap = formatsBitmap;
 
     BarcodeScannerOptions barcodeScannerOptions =
-      new BarcodeScannerOptions.Builder()
-        .setBarcodeFormats(
-          barcodeFormatsArray[0],
-          Arrays.copyOfRange(barcodeFormatsArray, 1, barcodeFormatsArray.length)
-        )
-        .build();
+        new BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(barcodeFormatsArray[0],
+                               Arrays.copyOfRange(barcodeFormatsArray, 1,
+                                                  barcodeFormatsArray.length))
+            .build();
 
     barcodeScanner = BarcodeScanning.getClient(barcodeScannerOptions);
 

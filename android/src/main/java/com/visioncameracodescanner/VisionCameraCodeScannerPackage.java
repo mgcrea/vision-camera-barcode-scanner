@@ -16,16 +16,13 @@ public class VisionCameraCodeScannerPackage implements ReactPackage {
 
   static {
     FrameProcessorPluginRegistry.addFrameProcessorPlugin(
-      VisionCameraCodeScannerModule.NAME,
-      CodeScannerProcessorPlugin::new
-    );
+        VisionCameraCodeScannerModule.NAME, CodeScannerProcessorPlugin::new);
   }
 
   @NonNull
   @Override
-  public List<NativeModule> createNativeModules(
-    @NonNull ReactApplicationContext reactContext
-  ) {
+  public List<NativeModule>
+  createNativeModules(@NonNull ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
     modules.add(new VisionCameraCodeScannerModule(reactContext));
     return modules;
@@ -33,9 +30,8 @@ public class VisionCameraCodeScannerPackage implements ReactPackage {
 
   @NonNull
   @Override
-  public List<ViewManager> createViewManagers(
-    @NonNull ReactApplicationContext reactContext
-  ) {
+  public List<ViewManager>
+  createViewManagers(@NonNull ReactApplicationContext reactContext) {
     return Collections.emptyList();
   }
 }
