@@ -50,6 +50,7 @@
   "devDependencies": {
     "@mgcrea/eslint-config-react-native": "^0.9.5",
     "@react-native-community/eslint-config": "^3.2.0",
+    "@react-native/gradle-plugin": "^0.73.4",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.4.3",
     "@tsconfig/react-native": "^3.0.3",
@@ -63,7 +64,7 @@
     "prettier-plugin-organize-imports": "^3.2.4",
     "react": "18.2.0",
     "react-native": "0.73.2",
-    "react-native-vision-camera": "3.8.2",
+    "react-native-vision-camera": "3.9.0-beta.1",
     "react-native-worklets-core": "0.2.4",
     "release-it": "^17.0.3",
     "tsup": "^8.0.1",

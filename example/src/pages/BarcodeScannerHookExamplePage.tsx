@@ -1,9 +1,9 @@
 import {
   CameraHighlights,
   // onBarcodeDetected,
+  Templates,
   useBarcodeScanner,
   useCameraPermission,
-  Templates,
 } from '@mgcrea/vision-camera-code-scanner';
 import React, {type FunctionComponent, useEffect, useState} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
@@ -20,13 +20,13 @@ export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
   // Ask for camera permission
   const [permissionStatus, requestPermission] = useCameraPermission();
 
-  const [isActive, setIsActive] = useState(true);
+  const [isActive, setIsActive] = useState(false);
   const [isMounted, setIsMounted] = useState(true);
   useEffect(() => {
     const runEffect = () => {
       setTimeout(() => {
         setIsActive(true);
-      }, 1000);
+      }, 500);
     };
     runEffect();
   }, []);
