@@ -61,6 +61,8 @@ export const scanCodes = (
   if (visionCameraProcessorPlugin == null) {
     throw new Error(`Failed to load Frame Processor Plugin "${MODULE_NAME}"!`);
   }
+
+  // console.log(`frame.width=${frame.width}, frame.height=${frame.height}`);
   // @ts-expect-error - incrementRefCount() is not exposed in the typings
   frame.incrementRefCount && frame.incrementRefCount();
   const nativeCodes = visionCameraProcessorPlugin.call(
