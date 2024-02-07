@@ -13,6 +13,7 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
+import com.mrousavy.camera.core.FrameInvalidError;
 import com.mrousavy.camera.frameprocessor.Frame;
 import com.mrousavy.camera.frameprocessor.FrameProcessorPlugin;
 import com.mrousavy.camera.frameprocessor.VisionCameraProxy;
@@ -61,7 +62,17 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
 
     List<Object> barcodes = new ArrayList<>();
 
-    Orientation orientation = frame.getOrientation();
+    Orientation orientation = Orientation.PORTRAIT;
+    try {
+        orientation = frame.getOrientation();
+    } catch (FrameInvalidError e) {
+      Log.e(
+        VisionCameraCodeScannerModule.NAME,
+        "Received an invalid frame."
+      );
+      return null;
+    }
+
     InputImage inputImage = InputImage.fromMediaImage(
       mediaImage,
       Orientation.Companion
