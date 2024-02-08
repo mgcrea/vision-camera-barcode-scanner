@@ -54,11 +54,11 @@ devDependencies:
     specifier: 0.73.2
     version: 0.73.2(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
   react-native-vision-camera:
-    specifier: 3.9.0-beta.1
-    version: 3.9.0-beta.1(react-native-worklets-core@0.2.4)(react-native@0.73.2)(react@18.2.0)
+    specifier: 3.9.0-beta.2
+    version: 3.9.0-beta.2(react-native-worklets-core@0.3.0)(react-native@0.73.2)(react@18.2.0)
   react-native-worklets-core:
-    specifier: 0.2.4
-    version: 0.2.4(react-native@0.73.2)(react@18.2.0)
+    specifier: 0.3.0
+    version: 0.3.0(react-native@0.73.2)(react@18.2.0)
   release-it:
     specifier: ^17.0.3
     version: 17.0.3(typescript@5.3.3)
@@ -7847,8 +7847,8 @@ packages:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
 
-  /react-native-vision-camera@3.9.0-beta.1(react-native-worklets-core@0.2.4)(react-native@0.73.2)(react@18.2.0):
-    resolution: {integrity: sha512-WQHXKNaEnCfz8Px6eZS62M01/Mm5x7vpX9FeMvz9laE2V6zll3HIZpgYTJXo6QX2zfyKENBk6uqI2i7iETy7Qw==}
+  /react-native-vision-camera@3.9.0-beta.2(react-native-worklets-core@0.3.0)(react-native@0.73.2)(react@18.2.0):
+    resolution: {integrity: sha512-NhGCtxCj95vxEiFaRSJtkbMSN/AEkXjB+m5xPaAImeFD/mZFKAqAgBHZKVMpU3uiYdIF7jatkTUdKsZhV3nc0Q==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -7859,11 +7859,11 @@ packages:
     dependencies:
       react: 18.2.0
       react-native: 0.73.2(@babel/core@7.23.2)(@babel/preset-env@7.23.2)(react@18.2.0)
-      react-native-worklets-core: 0.2.4(react-native@0.73.2)(react@18.2.0)
+      react-native-worklets-core: 0.3.0(react-native@0.73.2)(react@18.2.0)
     dev: true
 
-  /react-native-worklets-core@0.2.4(react-native@0.73.2)(react@18.2.0):
-    resolution: {integrity: sha512-NKqxLRDOYfO7RJRZHHDA/1yztdiSadSTTILgHw2VwSrcQcmnWAZGXWr9EYpzKblpbk/vXfJa6QpWIKHjNrbe4w==}
+  /react-native-worklets-core@0.3.0(react-native@0.73.2)(react@18.2.0):
+    resolution: {integrity: sha512-bOoo6xbl+f+mz0Q65bLkUP3FxgYt7f/Bzi0c5Yj8Ix4vQCKMtgHwafrqCNRhW32N7TpTv3+zOoyQMJwQVr/frQ==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       react: '*'
