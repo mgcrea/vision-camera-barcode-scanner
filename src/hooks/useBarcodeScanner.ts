@@ -22,6 +22,7 @@ export type UseBarcodeScannerOptions = {
   disableHighlighting?: boolean;
   resizeMode?: ResizeMode;
   scanMode?: "continuous" | "once";
+  isMountedRef?: { value: boolean };
 };
 
 export const useBarcodeScanner = ({
@@ -31,6 +32,7 @@ export const useBarcodeScanner = ({
   disableHighlighting,
   resizeMode = "cover",
   scanMode = "continuous",
+  isMountedRef,
   fps = 5,
 }: UseBarcodeScannerOptions) => {
   // Layout of the <Camera /> component
@@ -58,6 +60,9 @@ export const useBarcodeScanner = ({
   const frameProcessor = useFrameProcessor(
     (frame) => {
       "worklet";
+      if (isMountedRef && isMountedRef.value === false) {
+        return;
+      }
       runAtTargetFps(fps, () => {
         "worklet";
         const { value: layout } = layoutRef;

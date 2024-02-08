@@ -13,7 +13,6 @@ export const computeHighlights = (
 
   // If the layout is not yet known, we can't compute the highlights
   if (layout.width === 0 || layout.height === 0) {
-    console.warn(`Encountered empty layout: ${JSON.stringify(layout)}`);
     return [];
   }
 
