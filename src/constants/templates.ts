@@ -1,4 +1,5 @@
 import { Platform } from "react-native";
+import { type FormatFilter } from "react-native-vision-camera";
 
 const pixelFormat = Platform.OS === "ios" ? "native" : "yuv";
 
@@ -17,4 +18,4 @@ export const Templates = {
     { videoResolution: { width: 1024, height: 768 } },
     { pixelFormat },
   ],
-};
+} as const satisfies Record<string, FormatFilter[]>;
