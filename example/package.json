@@ -22,7 +22,7 @@
     "@mgcrea/vision-camera-code-scanner": "link:../",
     "react": "18.2.0",
     "react-native": "0.73.1",
-    "react-native-vision-camera": "3.9.0-beta.1",
+    "react-native-vision-camera": "3.9.0-beta.2",
     "react-native-worklets-core": "0.3.0"
   },
   "devDependencies": {

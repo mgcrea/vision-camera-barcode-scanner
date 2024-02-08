@@ -1,18 +1,12 @@
 import {
-  CameraHighlights,
-  // onBarcodeDetected,
+  BarcodeCamera,
   Templates,
-  useBarcodeScanner,
   useCameraPermission,
+  type Barcode,
 } from '@mgcrea/vision-camera-code-scanner';
-import React, {type FunctionComponent, useEffect, useState} from 'react';
+import React, {useEffect, useState, type FunctionComponent} from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
-import {
-  Camera,
-  useCameraDevices,
-  useCameraFormat,
-} from 'react-native-vision-camera';
-// import {CameraOverlay} from './../components';
+import {useCameraDevices, useCameraFormat} from 'react-native-vision-camera';
 
 const TEST_CRASH = false;
 
@@ -36,30 +30,23 @@ export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
     useEffect(() => {
       const interval = setInterval(() => {
         setIsMounted(prevIsMounted => {
-          console.warn('\n/!\\ isMounted !!!', prevIsMounted);
+          console.log(`\n->isMounted=${!prevIsMounted}\n`);
           return !prevIsMounted;
         });
-      }, 3000);
+      }, 4000);
       return () => {
         clearInterval(interval);
       };
     }, []);
 
-  const {props: cameraProps, highlights} = useBarcodeScanner({
-    fps: 5,
-    barcodeTypes: ['ean-13'],
-    // defaultResizeMode: 'contain',
-    // regionOfInterest: {x: 0, y: 0, width: 0.5, height: 1},
-    scanMode: 'continuous',
-    onBarcodeScanned: barcodes => {
-      'worklet';
-      console.log(
-        `Scanned ${barcodes.length} codes with values=${JSON.stringify(
-          barcodes.map(barcode => `${barcode.type}:${barcode.value}`),
-        )} !`,
-      );
-    },
-  });
+  const onBarcodeScanned = (barcodes: Barcode[]) => {
+    'worklet';
+    console.log(
+      `Scanned ${barcodes.length} codes with values=${JSON.stringify(
+        barcodes.map(barcode => `${barcode.type}:${barcode.value}`),
+      )} !`,
+    );
+  };
 
   const devices = useCameraDevices();
   const device = devices.find(({position}) => position === 'back');
@@ -84,20 +71,16 @@ export const BarcodeScannerHookExamplePage: FunctionComponent = () => {
           />
         </View>
       ) : isMounted ? (
-        <>
-          <Camera
-            // enableFpsGraph
-            // orientation="landscape-right"
-            style={StyleSheet.absoluteFill}
-            device={device}
-            {...cameraProps}
-            resizeMode="cover"
-            format={format}
-            isActive={isActive}
-            // photo
-          />
-          <CameraHighlights highlights={highlights} color="peachpuff" />
-        </>
+        <BarcodeCamera
+          // enableFpsGraph
+          // orientation="landscape-right"
+          resizeMode="cover"
+          style={StyleSheet.absoluteFill}
+          device={device}
+          format={format}
+          onBarcodeScanned={onBarcodeScanned}
+          isActive={isActive}
+        />
       ) : null}
       {/* <CameraOverlay /> */}
       <View style={styles.actions}>

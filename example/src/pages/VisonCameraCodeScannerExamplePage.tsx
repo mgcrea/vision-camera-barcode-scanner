@@ -4,7 +4,12 @@ import {
   CameraHighlights,
   convertVisionCameraCodeToBarcode,
 } from '@mgcrea/vision-camera-code-scanner';
-import React, {useState, type FunctionComponent, useCallback} from 'react';
+import React, {
+  useState,
+  type FunctionComponent,
+  useCallback,
+  useEffect,
+} from 'react';
 import {Button, LayoutChangeEvent, StyleSheet, Text, View} from 'react-native';
 import {
   Camera,
@@ -15,17 +20,34 @@ import {
   useCodeScanner,
 } from 'react-native-vision-camera';
 
+const TEST_CRASH = true;
+
 export const VisonCameraCodeScannerExamplePage: FunctionComponent = () => {
   const [codes, setCodes] = useState<Code[]>([]);
   const [permissionStatus, requestPermission] = useCameraPermission();
+  const [isMounted, setIsMounted] = useState(true);
+
+  TEST_CRASH &&
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setIsMounted(prevIsMounted => {
+          console.log(`\n->isMounted=${!prevIsMounted}\n`);
+          return !prevIsMounted;
+        });
+      }, 4000);
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
 
   const codeScanner = useCodeScanner({
     codeTypes: ['qr', 'ean-13'],
     onCodeScanned: scannedCodes => {
       runAtTargetFps(5, () => {
-        // console.log(`Scanned ${scannedCodes.length} codes!`);
+        console.log(`Scanned ${scannedCodes.length} codes!`);
         // setCodes((codes: Code[]) => [...codes, ...scannedCodes]);
-        console.log(JSON.stringify(scannedCodes, null, 2));
+        // console.log(JSON.stringify(scannedCodes, null, 2));
         setCodes(scannedCodes);
       });
     },
@@ -74,7 +96,7 @@ export const VisonCameraCodeScannerExamplePage: FunctionComponent = () => {
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
-      ) : (
+      ) : isMounted ? (
         <>
           <Camera
             // enableFpsGraph
@@ -94,7 +116,7 @@ export const VisonCameraCodeScannerExamplePage: FunctionComponent = () => {
             color="peachpuff"
           />
         </>
-      )}
+      ) : null}
     </View>
   );
 };

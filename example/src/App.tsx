@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   BarcodeScannerHookExamplePage,
-  // VisonCameraCodeScannerExamplePage,
+  VisonCameraCodeScannerExamplePage,
 } from './pages';
 
 export default function App() {
