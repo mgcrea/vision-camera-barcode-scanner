@@ -63,9 +63,10 @@ dependencies {
   // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native"
-  implementation "androidx.camera:camera-core:1.1.0-beta02"
+  implementation "com.facebook.react:react-android:+"
   implementation 'com.google.mlkit:barcode-scanning:17.2.0'
   implementation project(":react-native-vision-camera")
+  implementation project(":react-native-worklets-core")
 }
 
 if (isNewArchitectureEnabled()) {

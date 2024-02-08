@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@mgcrea/eslint-config-react-native": "^0.9.5",
+    "@react-native-community/cli-platform-android": "^12.3.5",
     "@react-native-community/eslint-config": "^3.2.0",
     "@react-native/gradle-plugin": "^0.73.4",
     "@testing-library/jest-native": "^5.4.3",

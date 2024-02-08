@@ -8,6 +8,9 @@ devDependencies:
   '@mgcrea/eslint-config-react-native':
     specifier: ^0.9.5
     version: 0.9.5(eslint@8.56.0)(prettier@3.2.4)(typescript@5.3.3)
+  '@react-native-community/cli-platform-android':
+    specifier: ^12.3.5
+    version: 12.3.5
   '@react-native-community/eslint-config':
     specifier: ^3.2.0
     version: 3.2.0(eslint@8.56.0)(jest@29.7.0)(prettier@3.2.4)(typescript@5.3.3)
@@ -2355,6 +2358,19 @@ packages:
       - encoding
     dev: true
 
+  /@react-native-community/cli-platform-android@12.3.5:
+    resolution: {integrity: sha512-vkoEoP2qKwdf8jxkrL2b35k+9eTNRFO9J6QhkVJS8AgSDcwLDvSEUCHoDBNCHaohFHP1wDWixYG4QwDOx+GfFw==}
+    dependencies:
+      '@react-native-community/cli-tools': 12.3.5
+      chalk: 4.1.2
+      execa: 5.1.1
+      fast-xml-parser: 4.3.2
+      glob: 7.2.3
+      logkitty: 0.7.1
+    transitivePeerDependencies:
+      - encoding
+    dev: true
+
   /@react-native-community/cli-platform-ios@12.3.0:
     resolution: {integrity: sha512-H95Sgt3wT7L8V75V0syFJDtv4YgqK5zbu69ko4yrXGv8dv2EBi6qZP0VMmkqXDamoPm9/U7tDTdbcf26ctnLfg==}
     dependencies:
@@ -2393,6 +2409,23 @@ packages:
 
   /@react-native-community/cli-tools@12.3.0:
     resolution: {integrity: sha512-2GafnCr8D88VdClwnm9KZfkEb+lzVoFdr/7ybqhdeYM0Vnt/tr2N+fM1EQzwI1DpzXiBzTYemw8GjRq+Utcz2Q==}
+    dependencies:
+      appdirsjs: 1.2.7
+      chalk: 4.1.2
+      find-up: 5.0.0
+      mime: 2.6.0
+      node-fetch: 2.7.0
+      open: 6.4.0
+      ora: 5.4.1
+      semver: 7.5.4
+      shell-quote: 1.8.1
+      sudo-prompt: 9.2.1
+    transitivePeerDependencies:
+      - encoding
+    dev: true
+
+  /@react-native-community/cli-tools@12.3.5:
+    resolution: {integrity: sha512-Q7LKvu9pt3dR8XngcMfqo42XVEKzOad+4vaqRkpBUkKkZwXv41UFDxeK16NmUP87rDpHQNBbgCjJcpSq57hWsw==}
     dependencies:
       appdirsjs: 1.2.7
       chalk: 4.1.2
@@ -3917,11 +3950,6 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       restore-cursor: 4.0.0
-    dev: true
-
-  /cli-spinners@2.9.1:
-    resolution: {integrity: sha512-jHgecW0pxkonBJdrKsqxgRX9AcG+u/5k0Q7WPDfi8AogLAdwxEkyYYNWwZ5GvVFoFx2uiY1eNcSK00fh+1+FyQ==}
-    engines: {node: '>=6'}
     dev: true
 
   /cli-spinners@2.9.2:
@@ -7399,7 +7427,7 @@ packages:
       bl: 4.1.0
       chalk: 4.1.2
       cli-cursor: 3.1.0
-      cli-spinners: 2.9.1
+      cli-spinners: 2.9.2
       is-interactive: 1.0.0
       is-unicode-supported: 0.1.0
       log-symbols: 4.1.0
