@@ -45,7 +45,7 @@
     "react": "*",
     "react-native": "*",
     "react-native-vision-camera": ">=3.9.2",
-    "react-native-worklets-core": ">=0.2.4"
+    "react-native-worklets-core": ">=1.1.1"
   },
   "devDependencies": {
     "@mgcrea/eslint-config-react-native": "^0.10.1",
