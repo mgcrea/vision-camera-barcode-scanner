@@ -51,7 +51,7 @@ export const useBarcodeScanner = ({
   // Barcode highlights related state
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const lastHighlightsCount = useSharedValue<number>(0);
-  const setHighlightsJS = Worklets.createRunInJsFn(setHighlights);
+  const setHighlightsJS = Worklets.createRunOnJS(setHighlights);
 
   // Pixel format must be "yuv" on Android and "native" on iOS
   const pixelFormat: CameraProps["pixelFormat"] =
