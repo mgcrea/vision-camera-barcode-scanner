@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Platform, type ViewProps } from "react-native";
+import { type ViewProps } from "react-native";
 import {
   runAtTargetFps,
   useFrameProcessor,
@@ -52,10 +52,6 @@ export const useBarcodeScanner = ({
   const [highlights, setHighlights] = useState<Highlight[]>([]);
   const lastHighlightsCount = useSharedValue<number>(0);
   const setHighlightsJS = Worklets.createRunOnJS(setHighlights);
-
-  // Pixel format must be "yuv" on Android and "native" on iOS
-  const pixelFormat: CameraProps["pixelFormat"] =
-    Platform.OS === "android" ? "yuv" : "native";
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
@@ -124,7 +120,6 @@ export const useBarcodeScanner = ({
 
   return {
     props: {
-      pixelFormat,
       frameProcessor,
       onLayout,
     },
