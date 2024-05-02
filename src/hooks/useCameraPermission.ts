@@ -17,11 +17,13 @@ export const useCameraPermission = () => {
   }, []);
 
   const requestCameraPermission = useCallback(async () => {
-    console.log(`Requesting camera permission...`);
+    console.log("Requesting camera permission...");
     const permission = await Camera.requestCameraPermission();
     console.log(`Camera permission status: ${permission}`);
 
-    if (permission === "denied") await Linking.openSettings();
+    if (permission === "denied") {
+      await Linking.openSettings();
+    }
     setCameraPermissionStatus(permission);
   }, []);
 
