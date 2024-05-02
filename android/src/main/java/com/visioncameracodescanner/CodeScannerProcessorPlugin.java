@@ -10,10 +10,10 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import com.mrousavy.camera.core.FrameInvalidError;
-import com.mrousavy.camera.frameprocessor.Frame;
-import com.mrousavy.camera.frameprocessor.FrameProcessorPlugin;
-import com.mrousavy.camera.frameprocessor.VisionCameraProxy;
-import com.mrousavy.camera.types.Orientation;
+import com.mrousavy.camera.frameprocessors.Frame;
+import com.mrousavy.camera.frameprocessors.FrameProcessorPlugin;
+import com.mrousavy.camera.frameprocessors.VisionCameraProxy;
+import com.mrousavy.camera.core.types.Orientation;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,11 +40,16 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
   public Object callback(@NotNull Frame frame,
                          @Nullable Map<String, Object> params) {
 
-    Image mediaImage = frame.getImage();
+    try {
+      Image mediaImage = frame.getImage();
 
-    if (mediaImage.getFormat() != ImageFormat.YUV_420_888) {
-      Log.e(TAG, "Unsupported image format: " + mediaImage.getFormat() +
-                     ". Only YUV_420_888 is supported for now.");
+      if (mediaImage.getFormat() != ImageFormat.YUV_420_888) {
+        Log.e(TAG, "Unsupported image format: " + mediaImage.getFormat() +
+                ". Only YUV_420_888 is supported for now.");
+        return null;
+      }
+    } catch (FrameInvalidError e) {
+      Log.e(TAG, "Received an invalid frame.");
       return null;
     }
 
@@ -70,13 +75,14 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
 
   @Nullable
   private InputImage getInputImageFromFrame(@NotNull Frame frame) {
-    Image mediaImage = frame.getImage();
     try {
+      Image mediaImage = frame.getImage();
+
       Orientation orientation = frame.getOrientation();
       return InputImage.fromMediaImage(
           mediaImage,
           Orientation.Companion.fromUnionValue(orientation.getUnionValue())
-              .toDegrees());
+              .toSurfaceRotation());
     } catch (FrameInvalidError e) {
       Log.e(TAG, "Received an invalid frame.");
       return null;
