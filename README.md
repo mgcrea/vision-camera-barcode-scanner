@@ -33,7 +33,7 @@
 
 High performance barcode scanner for React Native using VisionCamera.
 
-- **Modern and future-proof:** Built on [react-native-vision-camera v3](https://github.com/mrousavy/react-native-vision-camera) with minimal native dependencies for each platforms to minimize future build-failure risk.
+- **Modern and future-proof:** Built on [react-native-vision-camera](https://github.com/mrousavy/react-native-vision-camera) with minimal native dependencies for each platforms to minimize future build-failure risk.
 
 - **Minimal footprint:** Leverages [Google's MLKit BarcodeScanner](https://developers.google.com/android/reference/com/google/mlkit/vision/barcode/package-summary) on Android and [Apple's Vision VNDetectBarcodesRequest](https://developer.apple.com/documentation/vision/vndetectbarcodesrequest).
 
@@ -52,8 +52,8 @@ A working project can be found at [vision-camera-barcode-scanner-example](./exam
 ## Install
 
 > [!WARNING]
-> The project is currently trying to closely track the [react-native-vision-camera v3](https://github.com/mrousavy/react-native-vision-camera/releases),
-> The latest 0.9+ releases are made to work with the latest react-native-vision-camera beta (currently 3.9.0-beta.2)
+> The project is currently trying to closely track the [react-native-vision-camera v4](https://github.com/mrousavy/react-native-vision-camera/releases),
+> The latest 0.11+ releases are made to work with the latest react-native-vision-camera release only (currently 4.0.0)
 
 ```bash
 npm install @mgcrea/vision-camera-barcode-scanner
