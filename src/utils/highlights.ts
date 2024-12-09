@@ -16,35 +16,28 @@ export const computeHighlights = (
     return [];
   }
 
-  /* iOS:
-   * "portrait" -> "landscape-right"
-   * "portrait-upside-down" -> "landscape-left"
-   * "landscape-left" -> "portrait"
-   * "landscape-right" -> "portrait-upside-down"
-   */
-  // @NOTE destructure the object to make sure we don't hold a reference to the original layout
-  const adjustedLayout = ["portrait", "portrait-upside-down"].includes(
-    frame.orientation,
-  )
-    ? {
-        width: layout.height,
-        height: layout.width,
-      }
-    : {
-        width: layout.width,
-        height: layout.height,
-      };
+  const adjustedLayout = {
+    width: layout.height,
+    height: layout.width,
+  };
 
   const highlights = barcodes.map<Highlight>(
     ({ value, cornerPoints }, index) => {
       let translatedCornerPoints = cornerPoints;
 
-      translatedCornerPoints = translatedCornerPoints?.map((point) =>
-        applyScaleFactor(point, frame, adjustedLayout, resizeMode),
-      );
-      translatedCornerPoints = translatedCornerPoints?.map((point) =>
-        applyTransformation(point, adjustedLayout, frame.orientation),
-      );
+      translatedCornerPoints = translatedCornerPoints?.map((point) => {
+        const scaledPoint = applyScaleFactor(
+          point,
+          frame,
+          adjustedLayout,
+          resizeMode,
+        );
+        return applyTransformation(
+          scaledPoint,
+          adjustedLayout,
+          frame.orientation,
+        );
+      });
 
       const valueFromCornerPoints = computeBoundingBoxFromCornerPoints(
         translatedCornerPoints!,
