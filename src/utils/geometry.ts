@@ -43,33 +43,27 @@ export const applyScaleFactor = (
 
 export const applyTransformation = (
   { x, y }: Point,
-  { width, height }: Size,
+  target: Size,
   orientation: Orientation,
 ): Point => {
   "worklet";
 
   if (Platform.OS === "android") {
     switch (orientation) {
+      case "landscape-right":
+        return { x: target.height - y, y: x };
+      case "landscape-left":
+        return { x: y, y: target.width - x };
       case "portrait":
-        return { x: height - y, y: x };
+        return { x, y };
+      case "portrait-upside-down":
+        return { x: target.width - x, y: target.height - y };
       default:
         console.warn(`Unsupported orientation: ${orientation}`);
         return { x, y };
     }
   } else if (Platform.OS === "ios") {
-    switch (orientation) {
-      case "portrait":
-        return { x: height - y, y: width - x };
-      case "landscape-left":
-        return { x: width - x, y };
-      case "landscape-right":
-        return { x: x, y: height - y };
-      case "portrait-upside-down":
-        return { x: y, y: x };
-      default:
-        console.warn(`Unsupported orientation: ${orientation}`);
-        return { x, y };
-    }
+    return { x: y, y: x };
   } else {
     throw new Error(`Unsupported platform: ${Platform.OS}`);
   }

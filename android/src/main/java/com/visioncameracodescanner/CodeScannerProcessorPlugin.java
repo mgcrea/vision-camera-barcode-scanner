@@ -77,31 +77,12 @@ public class CodeScannerProcessorPlugin extends FrameProcessorPlugin {
   private InputImage getInputImageFromFrame(@NotNull Frame frame) {
     try {
       Image mediaImage = frame.getImage();
-      String orientation = frame.getOrientation().getUnionValue();
-
-      int degrees = toDegrees(orientation);
-
-      return InputImage.fromMediaImage(mediaImage, degrees);
+      return InputImage.fromMediaImage(mediaImage, 0);
     } catch (FrameInvalidError e) {
       Log.e(TAG, "Received an invalid frame.");
       return null;
     }
   }
-
-  private int toDegrees(String orientation) {
-    switch (orientation) {
-      case "portrait":
-        return 0;
-      case "landscape-left":
-        return 90;
-      case "portrait-upside-down":
-        return 180;
-      case "landscape-right":
-        return 270;
-      default:
-        return 0;
-    }
-  };
 
   private synchronized BarcodeScanner
   getBarcodeScannerClient(@Nullable Map<String, Object> params) {
