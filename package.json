@@ -19,6 +19,7 @@
     }
   },
   "files": [
+    "src",
     "dist",
     "android/{src/**/*.{java,xml},build.gradle,gradle.properties}",
     "ios/*.{h,m,mm}",
