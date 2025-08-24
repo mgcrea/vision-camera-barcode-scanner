@@ -1,9 +1,0 @@
-{
-  "extends": "@react-native/typescript-config/tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@mgcrea/vision-camera-code-scanner": ["./../src"]
-    }
-  }
-}

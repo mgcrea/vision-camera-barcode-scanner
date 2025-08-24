@@ -14,8 +14,8 @@ export const CameraHighlights: FunctionComponent<CameraHighlightsProps> = ({
 }) => {
   return (
     <View style={[StyleSheet.absoluteFill, style]}>
-      {highlights.map(({ key, ...props }) => (
-        <CameraHighlight key={key} color={color} {...props} />
+      {highlights.map(({ key, success, ...props }) => (
+        <CameraHighlight key={key} color={success ? 'green' : 'red'} {...props} />
       ))}
     </View>
   );
@@ -37,7 +37,7 @@ export const CameraHighlight: FunctionComponent<CameraHighlightProps> = ({
     <View
       style={[
         styles.highlight,
-        { width, height, top, left, borderColor: color },
+        { width, height, top, left, borderColor: color, backgroundColor: color, opacity: 0.7 },
       ]}
     ></View>
   );
@@ -49,5 +49,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 2,
     zIndex: 9999,
+    opacity: 0.7
   },
 });

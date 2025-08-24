@@ -7,7 +7,7 @@ import {
   type Frame,
 } from "react-native-vision-camera";
 import { Worklets, useSharedValue } from "react-native-worklets-core";
-import { ScanBarcodesOptions, scanCodes } from "src/module";
+import { ScanBarcodesOptions, scanCodes } from "../module";
 import type { Barcode, BarcodeType, Highlight, Rect, Size } from "src/types";
 import { computeHighlights } from "..";
 import { useLatestSharedValue } from "./useLatestSharedValue";
@@ -33,7 +33,7 @@ export const useBarcodeScanner = ({
   resizeMode = "cover",
   scanMode = "continuous",
   isMountedRef,
-  fps = 5,
+  fps = 30,
 }: UseBarcodeScannerOptions) => {
   // Layout of the <Camera /> component
   const layoutRef = useSharedValue<Size>({ width: 0, height: 0 });

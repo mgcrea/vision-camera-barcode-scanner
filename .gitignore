@@ -75,3 +75,4 @@ dist/
 android/gradle
 android/gradlew
 android/gradlew.bat
+.npmrc

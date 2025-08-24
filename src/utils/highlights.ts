@@ -45,6 +45,7 @@ export const computeHighlights = (
 
       return {
         key: `${value}.${index}`,
+        value: value,
         ...valueFromCornerPoints,
       };
     },

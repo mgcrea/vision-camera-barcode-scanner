@@ -1,11 +1,16 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "src/*": ["src/*"],
-      "test/*": ["test/*"]
-    }
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
   },
-  "include": ["src", "test", ".idea/ModalBarcodeScannerProvider.tsx"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
