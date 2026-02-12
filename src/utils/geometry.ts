@@ -3,6 +3,10 @@ import type { CameraProps, Orientation } from "react-native-vision-camera";
 import type { Point, Size } from "src/types";
 import { normalizePrecision } from "./convert";
 
+// Pre-compute Platform.OS at module scope so worklets only capture a primitive
+// string instead of the complex Platform object (which can't be serialized).
+const _platformOS = Platform.OS;
+
 export const applyScaleFactor = (
   { x, y }: Point,
   source: Size,
@@ -48,7 +52,7 @@ export const applyTransformation = (
 ): Point => {
   "worklet";
 
-  if (Platform.OS === "android") {
+  if (_platformOS === "android") {
     switch (orientation) {
       case "landscape-right":
         return { x: target.height - y, y: x };
@@ -62,9 +66,9 @@ export const applyTransformation = (
         console.warn(`Unsupported orientation: ${orientation}`);
         return { x, y };
     }
-  } else if (Platform.OS === "ios") {
+  } else if (_platformOS === "ios") {
     return { x: y, y: x };
   } else {
-    throw new Error(`Unsupported platform: ${Platform.OS}`);
+    throw new Error(`Unsupported platform: ${_platformOS}`);
   }
 };

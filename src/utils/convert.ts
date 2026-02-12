@@ -9,18 +9,22 @@ import type {
 } from "src/types";
 import { normalizeAndroidCodeType, normalizeiOSCodeType } from "./types";
 
+// Pre-compute Platform.OS at module scope so worklets only capture a primitive
+// string instead of the complex Platform object (which can't be serialized).
+const _platformOS = Platform.OS;
+
 export const isIOSBarcode = (
   barcode: iOSBarcode | AndroidBarcode,
 ): barcode is iOSBarcode => {
   "worklet";
-  return Platform.OS === "ios";
+  return _platformOS === "ios";
 };
 
 export const isAndroidBarcode = (
   barcode: iOSBarcode | AndroidBarcode,
 ): barcode is AndroidBarcode => {
   "worklet";
-  return Platform.OS === "android";
+  return _platformOS === "android";
 };
 
 export const computeBoundingBoxFromCornerPoints = (
@@ -84,7 +88,7 @@ export const normalizeNativeBarcode = (
       native: barcode,
     };
   } else {
-    throw new Error(`Unsupported platform: ${Platform.OS}`);
+    throw new Error(`Unsupported platform: ${_platformOS}`);
   }
 };
 
